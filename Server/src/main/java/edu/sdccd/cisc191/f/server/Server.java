@@ -1,4 +1,7 @@
-package edu.sdccd.cisc191.f;
+package edu.sdccd.cisc191.f.server;
+
+import edu.sdccd.cisc191.f.CustomerRequest;
+import edu.sdccd.cisc191.f.CustomerResponse;
 
 import java.net.*;
 import java.io.*;
@@ -25,13 +28,13 @@ public class Server {
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-        String inputLine;
+    String inputLine;
         while ((inputLine = in.readLine()) != null) {
-            CustomerRequest request = CustomerRequest.fromJSON(inputLine);
-            CustomerResponse response = new CustomerResponse(request.getId(), "Jane", "Doe");
-            out.println(CustomerResponse.toJSON(response));
-        }
+        CustomerRequest request = CustomerRequest.fromJSON(inputLine);
+        CustomerResponse response = new CustomerResponse(request.getId(), "Jane", "Doe");
+        out.println(CustomerResponse.toJSON(response));
     }
+}
 
     public void stop() throws IOException {
         in.close();
