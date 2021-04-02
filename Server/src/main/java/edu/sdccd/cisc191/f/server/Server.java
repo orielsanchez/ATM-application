@@ -21,6 +21,7 @@ import java.util.ArrayList;
  * to process the connection.
  */
 public class Server {
+
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private PrintWriter out;
@@ -33,14 +34,18 @@ public class Server {
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-    String inputLine;
+        String inputLine;
         while ((inputLine = in.readLine()) != null) {
-        PlayerRequest request = PlayerRequest.fromJSON(inputLine);
-        PlayerResponse response = new PlayerResponse(request.getId(), 4, 20);
-        out.println(PlayerResponse.toJSON(response));
-            System.out.printf("Sending response to client %d", request.getId());
-    }
-}
+            System.out.println(inputLine);
+                PlayerRequest request = PlayerRequest.fromJSON(inputLine);
+                PlayerResponse response = new PlayerResponse(request.getId(), 4, 20);
+
+                out.println(PlayerResponse.toJSON(response));
+
+
+                System.out.printf("Sending response to client %d\n", request.getId());
+            }
+        }
 
     public void stop() throws IOException {
         in.close();
@@ -55,7 +60,7 @@ public class Server {
             server.start(4444);
             server.stop();
             System.out.println("Server stopped.");
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
