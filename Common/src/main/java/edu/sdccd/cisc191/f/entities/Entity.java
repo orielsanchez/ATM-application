@@ -4,23 +4,22 @@ public abstract class Entity {
     protected String name;
     protected int health;
     protected int maxHealth;
-    protected int armor;
-    protected boolean friendly;
+    protected int block;
     protected double attackMultiplier = 1.0;
     protected double blockMultiplier = 1.0;
     protected boolean isDead = false;
 
     public int TakeDamage(int amount) {
-        if (armor > 0) {
-            armor -= amount;
-            if (armor < 0) {
-                amount = -armor;
-                armor = 0;
+        if (block > 0) {
+            block -= amount;
+            if (block < 0) {
+                amount = -block;
+                block = 0;
             } else {
                 amount = 0;
             }
         }
-        int damage = java.lang.Math.min(health,amount);
+        int damage = java.lang.Math.min(health, amount);
         health -= amount;
         updateHealth();
         return damage;
@@ -38,11 +37,11 @@ public abstract class Entity {
         else if (health > maxHealth) health = maxHealth;
     }
 
-    public Entity(String name, int maxHealth, int armor) {
+    public Entity(String name, int maxHealth, int block) {
         this.name = name;
         this.maxHealth = maxHealth;
         health = maxHealth;
-        this.armor = armor;
+        this.block = block;
     }
 
     public String getName() {
@@ -69,20 +68,12 @@ public abstract class Entity {
         this.maxHealth = maxHealth;
     }
 
-    public int getArmor() {
-        return armor;
+    public int getBlock() {
+        return block;
     }
 
-    public void setArmor(int armor) {
-        this.armor = armor;
-    }
-
-    public boolean isFriendly() {
-        return friendly;
-    }
-
-    public void setFriendly(boolean friendly) {
-        this.friendly = friendly;
+    public void setBlock(int block) {
+        this.block = block;
     }
 
     public double getAttackMultiplier() {

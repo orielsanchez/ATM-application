@@ -2,28 +2,30 @@ package edu.sdccd.cisc191.f;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.sdccd.cisc191.f.cards.Card;
+import edu.sdccd.cisc191.f.cards.Deck;
 
-public class CustomerRequest {
+public class PlayerRequest {
     private Integer id;
 
     @JsonIgnore
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    public static String toJSON(CustomerRequest customer) throws Exception {
-            return objectMapper.writeValueAsString(customer);
+    public static String toJSON(PlayerRequest player) throws Exception {
+        return objectMapper.writeValueAsString(player);
     }
-    public static CustomerRequest fromJSON(String input) throws Exception{
-        return objectMapper.readValue(input, CustomerRequest.class);
+    public static PlayerRequest fromJSON(String input) throws Exception{
+        return objectMapper.readValue(input, PlayerRequest.class);
     }
-    protected CustomerRequest() {}
+    protected PlayerRequest() {}
 
-    public CustomerRequest(Integer id) {
+    public PlayerRequest(Integer id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
         return String.format(
-                "Customer[id=%d]",
+                "Player[id=%d]",
                 id);
     }
 

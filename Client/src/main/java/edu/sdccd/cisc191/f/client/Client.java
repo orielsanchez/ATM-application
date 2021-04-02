@@ -2,6 +2,8 @@ package edu.sdccd.cisc191.f.client;
 
 import edu.sdccd.cisc191.f.CustomerRequest;
 import edu.sdccd.cisc191.f.CustomerResponse;
+import edu.sdccd.cisc191.f.PlayerRequest;
+import edu.sdccd.cisc191.f.PlayerResponse;
 
 import java.net.*;
 import java.io.*;
@@ -30,16 +32,18 @@ public class Client {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
-    public CustomerResponse sendRequest() throws Exception {
-        out.println(CustomerRequest.toJSON(new CustomerRequest(1)));
-        return CustomerResponse.fromJSON(in.readLine());
+    public PlayerResponse sendRequest() throws Exception {
+        out.println(PlayerRequest.toJSON(new PlayerRequest(1)));
+        return PlayerResponse.fromJSON(in.readLine());
     }
+
 
     public void stopConnection() throws IOException {
         in.close();
         out.close();
         clientSocket.close();
     }
+
     public static void main(String[] args) {
         Client client = new Client();
         try {

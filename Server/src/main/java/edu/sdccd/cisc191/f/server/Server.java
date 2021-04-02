@@ -2,9 +2,13 @@ package edu.sdccd.cisc191.f.server;
 
 import edu.sdccd.cisc191.f.CustomerRequest;
 import edu.sdccd.cisc191.f.CustomerResponse;
+import edu.sdccd.cisc191.f.PlayerRequest;
+import edu.sdccd.cisc191.f.PlayerResponse;
+import edu.sdccd.cisc191.f.cards.Deck;
 
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * This program is a server that takes connection requests on
@@ -24,15 +28,17 @@ public class Server {
 
     public void start(int port) throws Exception {
         serverSocket = new ServerSocket(port);
+        System.out.println("Server running...");
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
     String inputLine;
         while ((inputLine = in.readLine()) != null) {
-        CustomerRequest request = CustomerRequest.fromJSON(inputLine);
-        CustomerResponse response = new CustomerResponse(request.getId(), "Jane", "Doe");
-        out.println(CustomerResponse.toJSON(response));
+        PlayerRequest request = PlayerRequest.fromJSON(inputLine);
+        PlayerResponse response = new PlayerResponse(request.getId(), 4, 20);
+        out.println(PlayerResponse.toJSON(response));
+            System.out.printf("Sending response to client %d", request.getId());
     }
 }
 
@@ -48,6 +54,7 @@ public class Server {
         try {
             server.start(4444);
             server.stop();
+            System.out.println("Server stopped.");
         } catch(Exception e) {
             e.printStackTrace();
         }
