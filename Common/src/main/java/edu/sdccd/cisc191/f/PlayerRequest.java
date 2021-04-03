@@ -2,8 +2,8 @@ package edu.sdccd.cisc191.f;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.sdccd.cisc191.f.cards.Card;
-import edu.sdccd.cisc191.f.cards.Deck;
+import edu.sdccd.cisc191.f.server.cards.Card;
+import edu.sdccd.cisc191.f.server.cards.Deck;
 
 public class PlayerRequest {
     private Integer id;

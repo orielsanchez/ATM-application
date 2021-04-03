@@ -1,6 +1,6 @@
-package edu.sdccd.cisc191.f.rooms;
+package edu.sdccd.cisc191.f.server.rooms;
 
-import edu.sdccd.cisc191.f.entities.Enemy;
+import edu.sdccd.cisc191.f.server.entities.Enemy;
 
 public class EnemyArea extends AbstractEnemyArea {
     private Enemy enemy;

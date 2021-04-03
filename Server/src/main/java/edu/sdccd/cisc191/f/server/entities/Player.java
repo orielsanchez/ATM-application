@@ -1,7 +1,7 @@
-package edu.sdccd.cisc191.f.entities;
+package edu.sdccd.cisc191.f.server.entities;
 
-import edu.sdccd.cisc191.f.cards.Card;
-import edu.sdccd.cisc191.f.cards.Deck;
+import edu.sdccd.cisc191.f.server.cards.Card;
+import edu.sdccd.cisc191.f.server.cards.Deck;
 
 public class Player extends Entity {
     protected int energy;

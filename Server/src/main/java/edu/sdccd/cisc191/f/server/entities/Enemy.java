@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191.f.entities;
+package edu.sdccd.cisc191.f.server.entities;
 
 public abstract class Enemy extends Entity {
 

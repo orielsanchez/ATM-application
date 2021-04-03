@@ -1,6 +1,6 @@
-package edu.sdccd.cisc191.f.rooms;
+package edu.sdccd.cisc191.f.server.rooms;
 
-import edu.sdccd.cisc191.f.entities.Player;
+import edu.sdccd.cisc191.f.server.entities.Player;
 
 public abstract class Room {
     protected Player player;

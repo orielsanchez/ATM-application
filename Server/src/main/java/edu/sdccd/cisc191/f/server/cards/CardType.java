@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191.f.cards;
+package edu.sdccd.cisc191.f.server.cards;
 
 public enum CardType {
     ATTACK,

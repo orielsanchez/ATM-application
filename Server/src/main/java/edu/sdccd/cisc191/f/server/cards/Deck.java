@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191.f.cards;
+package edu.sdccd.cisc191.f.server.cards;
 
 import java.util.Collections;
 import java.util.List;

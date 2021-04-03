@@ -34,10 +34,6 @@ public class Client {
         out.println(PlayerRequest.toJSON(new PlayerRequest(1)));
         return PlayerResponse.fromJSON(in.readLine());
     }
-
-
-
-
     public void stopConnection() throws IOException {
         in.close();
         out.close();
@@ -49,8 +45,9 @@ public class Client {
         try {
             client.startConnection("127.0.0.1", 4444);
             System.out.println(client.sendPlayerRequest().toString());
+
             client.stopConnection();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

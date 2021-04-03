@@ -1,14 +1,10 @@
 package edu.sdccd.cisc191.f.server;
 
-import edu.sdccd.cisc191.f.CustomerRequest;
-import edu.sdccd.cisc191.f.CustomerResponse;
 import edu.sdccd.cisc191.f.PlayerRequest;
 import edu.sdccd.cisc191.f.PlayerResponse;
-import edu.sdccd.cisc191.f.cards.Deck;
 
 import java.net.*;
 import java.io.*;
-import java.util.ArrayList;
 
 /**
  * This program is a server that takes connection requests on

@@ -1,6 +1,6 @@
-package edu.sdccd.cisc191.f.rooms;
+package edu.sdccd.cisc191.f.server.rooms;
 
-import edu.sdccd.cisc191.f.cards.Card;
+import edu.sdccd.cisc191.f.server.cards.Card;
 
 import java.util.HashMap;
 
