@@ -46,7 +46,7 @@ public class Client {
 
 
     public EnemyResponse sendEnemyRequest() throws Exception {
-        out.println(EnemyRequest.toJSON(new EnemyRequest(2)));
+        out.println(EnemyRequest.toJSON(new EnemyRequest(1)));
         return EnemyResponse.fromJSON(in.readLine());
     }
 

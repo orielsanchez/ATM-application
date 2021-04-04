@@ -41,14 +41,21 @@ public class Server {
             PlayerRequest request = PlayerRequest.fromJSON(inputLine);
             PlayerResponse response = new PlayerResponse(request.getId(), 4, 20);
             CardRequest cardRequest = CardRequest.fromJSON(inputLine);
-            CardResponse cardResponse = new CardResponse(request.getId(), "Strike", 2, "Attack", "Player strikes the enemy with their weapon, dealing x damage", 5, 5, 5);
+            CardResponse cardResponse = new CardResponse(cardRequest.getId(),
+                    "Strike",
+                    2,
+                    "Attack",
+                    "Player strikes the enemy with their weapon, dealing x damage",
+                    5,
+                    0,
+                    0);
 
             EnemyRequest enemyRequest = EnemyRequest.fromJSON((inputLine));
-            EnemyResponse enemyResponse = new EnemyResponse((enemyRequest.getId()), "Shrek", 10, 100, 10, 1, 1, false);
+            EnemyResponse enemyResponse = new EnemyResponse(enemyRequest.getId(), "Shrek", 10, 100, 10, 1, 1, false);
 
             out.println(PlayerResponse.toJSON(response));
-            out.println(EnemyResponse.toJSON(enemyResponse));
             out.println(CardResponse.toJSON(cardResponse));
+            out.println(EnemyResponse.toJSON(enemyResponse));
 
 
             System.out.printf("Sending response to client %d\n", request.getId());

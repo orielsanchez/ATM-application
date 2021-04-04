@@ -39,7 +39,7 @@ public class CardResponse {
     @Override
     public String toString() {
         return String.format(
-                "Player[id=%d, name='%s', cost='%d', cardType='%s', description='%s', damageTarget='%d', damageAll='%d', armorSelf='%d']",
+                "Card[id=%d, name='%s', cost='%d', cardType='%s', description='%s', damageTarget='%d', damageAll='%d', armorSelf='%d']",
                 id, name, cost, cardType, description, damageTarget, damageAll, armorSelf);
     }
 
