@@ -2,14 +2,11 @@ package edu.sdccd.cisc191.f;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.sdccd.cisc191.f.server.cards.Card;
-import edu.sdccd.cisc191.f.server.cards.Deck;
 
 public class PlayerResponse {
     private Integer id;
-    protected int energy;
-    protected int gold;
-    protected Deck<Card> deck;
+    private int energy;
+    private int gold;
 
     @JsonIgnore
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -59,13 +56,5 @@ public class PlayerResponse {
 
     public void setGold(int gold) {
         this.gold = gold;
-    }
-
-    public Deck<Card> getDeck() {
-        return deck;
-    }
-
-    public void setDeck(Deck<Card> deck) {
-        this.deck = deck;
     }
 }
