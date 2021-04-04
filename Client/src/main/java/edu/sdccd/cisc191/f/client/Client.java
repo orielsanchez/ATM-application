@@ -2,6 +2,8 @@ package edu.sdccd.cisc191.f.client;
 
 import edu.sdccd.cisc191.f.PlayerRequest;
 import edu.sdccd.cisc191.f.PlayerResponse;
+import edu.sdccd.cisc191.f.EnemyRequest;
+import edu.sdccd.cisc191.f.EnemyResponse;
 
 import java.net.*;
 import java.io.*;
@@ -34,6 +36,12 @@ public class Client {
         out.println(PlayerRequest.toJSON(new PlayerRequest(1)));
         return PlayerResponse.fromJSON(in.readLine());
     }
+
+    public EnemyResponse sendEnemyRequest() throws Exception {
+        out.println(EnemyRequest.toJSON(new EnemyRequest(2)));
+        return EnemyResponse.fromJSON(in.readLine());
+    }
+
     public void stopConnection() throws IOException {
         in.close();
         out.close();
@@ -45,7 +53,7 @@ public class Client {
         try {
             client.startConnection("127.0.0.1", 4444);
             System.out.println(client.sendPlayerRequest().toString());
-
+            System.out.println(client.sendEnemyRequest().toString());
             client.stopConnection();
         } catch (Exception e) {
             e.printStackTrace();

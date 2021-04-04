@@ -1,7 +1,10 @@
 package edu.sdccd.cisc191.f.server;
 
+import edu.sdccd.cisc191.f.EnemyRequest;
+import edu.sdccd.cisc191.f.EnemyResponse;
 import edu.sdccd.cisc191.f.PlayerRequest;
 import edu.sdccd.cisc191.f.PlayerResponse;
+
 
 import java.net.*;
 import java.io.*;
@@ -33,15 +36,18 @@ public class Server {
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
             System.out.println(inputLine);
-                PlayerRequest request = PlayerRequest.fromJSON(inputLine);
-                PlayerResponse response = new PlayerResponse(request.getId(), 4, 20);
+            PlayerRequest request = PlayerRequest.fromJSON(inputLine);
+            PlayerResponse response = new PlayerResponse(request.getId(), 4, 20);
 
-                out.println(PlayerResponse.toJSON(response));
+            EnemyRequest enemyRequest = EnemyRequest.fromJSON((inputLine));
+            EnemyResponse enemyResponse = new EnemyResponse((enemyRequest.getId()), "Shrek", 10, 100, 10, 1, 1, false);
 
+            out.println(PlayerResponse.toJSON(response));
+            out.println(EnemyResponse.toJSON(enemyResponse));
 
-                System.out.printf("Sending response to client %d\n", request.getId());
-            }
+            System.out.printf("Sending response to client %d\n", request.getId());
         }
+    }
 
     public void stop() throws IOException {
         in.close();
