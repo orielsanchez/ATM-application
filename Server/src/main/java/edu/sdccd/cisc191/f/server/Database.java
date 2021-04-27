@@ -9,7 +9,7 @@ public class Database {
     private static String filename;
 
 
-    public static void createNewDatabase(String filename) {
+    public static void setDatabaseFileName(String filename) {
         Database.filename = filename;
     }
 

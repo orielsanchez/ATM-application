@@ -10,7 +10,7 @@ public class Main {
     public static Database database = new Database();
     public static void main(String[] args) {
         String filename = "main.db";
-        Database.createNewDatabase(filename);
+        Database.setDatabaseFileName(filename);
         Database.createNewTable(filename);
         mainMenu.show();
     }

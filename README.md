@@ -3,7 +3,7 @@ Intermediate Java Programming Group F
 ## Prerequisites
 1. Maven
 2. Git
-3. JDK 1.8
+3. Liberica JDK 15
 ## Building
 mvn clean install
 ## Running

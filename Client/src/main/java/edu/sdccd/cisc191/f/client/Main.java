@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -68,9 +67,6 @@ public class Main extends Application {
 
 
         // Button Actions
-        playButton.setOnAction(event -> {
-            primaryStage.setScene(characterPreviewScene);
-
-        });
+        playButton.setOnAction(event -> primaryStage.setScene(characterPreviewScene));
     }
 }
