@@ -1,6 +1,7 @@
 package edu.sdccd.cisc191.f.server.controller;
 
 
+import edu.sdccd.cisc191.f.server.AccountUtils;
 import edu.sdccd.cisc191.f.server.model.Account;
 import edu.sdccd.cisc191.f.server.Main;
 import edu.sdccd.cisc191.f.server.view.LogInMenu;
@@ -16,7 +17,7 @@ public class LogIn {
         //Judge ID and PIN
         Account account;
         String numForCheck = String.valueOf(id).substring(0, 15);
-        String checkNum = numForCheck + Account.addLuhnNum(numForCheck);
+        String checkNum = numForCheck + AccountUtils.getLuhnNum(numForCheck);
         if(!checkNum.equals(String.valueOf(id))) {
             account = null;
         }
@@ -29,7 +30,7 @@ public class LogIn {
             System.out.println("You have successfully logged in!");
             System.out.println();
             LogInMenu logInMenu = new LogInMenu(account);
-            logInMenu.show();
+            logInMenu.displayMenu();
         }
         Main.mainMenu.show();
     }

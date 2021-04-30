@@ -1,5 +1,6 @@
 package edu.sdccd.cisc191.f.server.controller;
 
+import edu.sdccd.cisc191.f.server.AccountUtils;
 import edu.sdccd.cisc191.f.server.model.Account;
 import edu.sdccd.cisc191.f.server.Main;
 
@@ -31,13 +32,13 @@ public class AccountController {
                     recipientCardNumber = Main.in.next();
                 }
                 String numForCheck = recipientCardNumber.substring(0, 15);
-                String checkNum = numForCheck + Account.addLuhnNum(numForCheck);
+                String checkNum = numForCheck + AccountUtils.getLuhnNum(numForCheck);
                 if (recipientCardNumber.equals(String.valueOf(account.getID()))) {
                     System.out.println("You can't transfer money to the same account!");
                     System.out.println("Enter recipient's card number: ");
                     recipientCardNumber = Main.in.next();
                 } else if (!recipientCardNumber.equals(checkNum)) {
-                    System.out.println("Probably you made a mistake in the card number. Please try again!");
+                    System.out.println("You probably made a mistake in the card number. Please try again!");
                     System.out.println("Enter recipient's card number: ");
                     recipientCardNumber = Main.in.next();
                 } else {
@@ -83,7 +84,7 @@ public class AccountController {
 
     public static void createAccount() {
         //Create the account
-        Account account = Account.createAccount();
+        Account account = AccountUtils.createAccount();
 
         //Add the account to the bank database
         Main.database.insert(String.valueOf(account.getID()), account.getPIN(), account.getBalance());

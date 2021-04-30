@@ -11,12 +11,13 @@ public class LogInMenu {
         logInAccount = account;
     }
 
-    public void show() {
-        System.out.println("1. Balance");
-        System.out.println("2. Add income");
-        System.out.println("3. Do transfer");
-        System.out.println("4. Close Account");
-        System.out.println("5. Log out");
+    public void displayMenu() {
+        System.out.println("1. Show Balance");
+        System.out.println("2. Deposit");
+        System.out.println("3. Withdraw");
+        System.out.println("4. Transfer Funds");
+        System.out.println("5. Close Account");
+        System.out.println("6. Log out");
         System.out.println("0. Exit");
         System.out.println();
         choose(Main.in.nextInt());
@@ -28,36 +29,51 @@ public class LogInMenu {
             case 1:
                 System.out.println("Balance: " + logInAccount.getBalance());
                 System.out.println();
-                show();
+                displayMenu();
                 break;
             case 2:
-                System.out.println("How much would you like to add?");
-                int funds = -1;
-                while (funds < 0) {
-                    funds = Main.in.nextInt();
+                System.out.println("How much would you like to deposit?");
+                int depositAmount = -1;
+                while (depositAmount < 0) {
+                    depositAmount = Main.in.nextInt();
                 }
-                logInAccount.addFunds(funds);
+                logInAccount.addFunds(depositAmount);
                 AccountController.updateAccount(logInAccount);
                 System.out.println("\nFunds successfully added!");
                 System.out.println("Your balance is now " + logInAccount.getBalance() + "\n");
-                show();
+                displayMenu();
                 break;
+
             case 3:
+                System.out.println("How much would you like to withdraw?");
+                int withdrawalAmount = -1;
+                while (withdrawalAmount < 0) {
+                    withdrawalAmount = Main.in.nextInt();
+                }
+
+                logInAccount.removeFunds(withdrawalAmount);
+                AccountController.updateAccount(logInAccount);
+                System.out.println("\nWithdrawal successful!");
+                System.out.println("Your balance is now " + logInAccount.getBalance() + "\n");
+                displayMenu();
+                break;
+
+            case 4:
                 boolean fundsTransferred = AccountController.transferFunds(logInAccount);
                 if (fundsTransferred) {
                     logInAccount = Main.database.getAccount(logInAccount.getID());
                     System.out.println("Funds have been transferred!");
                 }
-                show();
+                displayMenu();
                 break;
 
-            case 4:
+            case 5:
                 long accountNumber = logInAccount.getID();
                 AccountController.closeAccount(logInAccount);
                 logInAccount = null;
                 System.out.println("Your account #" + accountNumber + " has been deleted.\n");
                 break;
-            case 5:
+            case 6:
                 logInAccount = null;
                 System.out.println("You have successfully logged out!");
                 break;
