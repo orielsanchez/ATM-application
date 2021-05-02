@@ -37,7 +37,7 @@ public class LogInMenu {
                 while (depositAmount < 0) {
                     depositAmount = Main.in.nextInt();
                 }
-                logInAccount.addFunds(depositAmount);
+                logInAccount.deposit(depositAmount);
                 AccountController.updateAccount(logInAccount);
                 System.out.println("\nFunds successfully added!");
                 System.out.println("Your balance is now " + logInAccount.getBalance() + "\n");
@@ -51,7 +51,7 @@ public class LogInMenu {
                     withdrawalAmount = Main.in.nextInt();
                 }
 
-                logInAccount.removeFunds(withdrawalAmount);
+                logInAccount.withdraw(withdrawalAmount);
                 AccountController.updateAccount(logInAccount);
                 System.out.println("\nWithdrawal successful!");
                 System.out.println("Your balance is now " + logInAccount.getBalance() + "\n");
@@ -61,6 +61,7 @@ public class LogInMenu {
             case 4:
                 boolean fundsTransferred = AccountController.transferFunds(logInAccount);
                 if (fundsTransferred) {
+                    //TODO Parse long from String
                     logInAccount = Main.database.getAccount(logInAccount.getID());
                     System.out.println("Funds have been transferred!");
                 }

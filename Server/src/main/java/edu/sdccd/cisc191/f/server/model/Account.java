@@ -33,15 +33,25 @@ public class Account {
         return ID;
     }
 
-    public int getBalance() {
+    public synchronized int getBalance() {
         return balance;
     }
 
-    public void addFunds(int funds) {
-        this.balance += funds;
+    public synchronized boolean deposit(int amount) {
+        if (amount >= 0) {
+            this.balance += amount;
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void removeFunds(int funds) {
-        this.balance -= funds;
+    public synchronized boolean withdraw(int amount) {
+        if (balance <= amount) {
+            return false;
+        } else {
+            balance -= amount;
+            return true;
+        }
     }
 }
