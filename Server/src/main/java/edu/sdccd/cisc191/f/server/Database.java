@@ -1,6 +1,6 @@
 package edu.sdccd.cisc191.f.server;
 
-import edu.sdccd.cisc191.f.server.model.Account;
+import edu.sdccd.cisc191.f.Account;
 
 import java.sql.*;
 

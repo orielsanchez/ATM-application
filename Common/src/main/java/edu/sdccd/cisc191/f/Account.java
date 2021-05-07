@@ -1,26 +1,36 @@
-package edu.sdccd.cisc191.f.server.model;
+package edu.sdccd.cisc191.f;
 
-
-import java.util.Random;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * This class represent a bank account at an ATM.
  *
  */
 
+@Entity
 public class Account {
-    private final long ID;      // This is the 16-digit card number
-    private final String PIN;   // This is a 4-digit PIN
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long ID;
+    private long cardNumber; // This is the 16-digit card number
+    private String PIN;   // This is a 4-digit PIN
     private int balance;        // represented in cents
+
+
+    protected Account() { }
 
     /**
      * Create an account object by three arguments
-     * @param ID card id
+     * @param cardNumber 16-digit card number
      * @param PIN account PIN
      * @param balance account balance
      */
-    public Account(long ID, String PIN, int balance) {
-        this.ID = ID;
+
+    public Account(long cardNumber, String PIN, int balance) {
+        this.cardNumber = cardNumber;
         this.PIN = PIN;
         this.balance = balance;
     }
@@ -29,7 +39,7 @@ public class Account {
         return PIN;
     }
 
-    public long getID() {
+    public long getCardNumber() {
         return ID;
     }
 

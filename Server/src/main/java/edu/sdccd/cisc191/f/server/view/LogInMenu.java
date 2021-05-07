@@ -1,6 +1,6 @@
 package edu.sdccd.cisc191.f.server.view;
 
-import edu.sdccd.cisc191.f.server.model.Account;
+import edu.sdccd.cisc191.f.Account;
 import edu.sdccd.cisc191.f.server.Main;
 import edu.sdccd.cisc191.f.server.controller.AccountController;
 
@@ -62,14 +62,14 @@ public class LogInMenu {
                 boolean fundsTransferred = AccountController.transferFunds(logInAccount);
                 if (fundsTransferred) {
                     //TODO Parse long from String
-                    logInAccount = Main.database.getAccount(logInAccount.getID());
+                    logInAccount = Main.database.getAccount(logInAccount.getCardNumber());
                     System.out.println("Funds have been transferred!");
                 }
                 displayMenu();
                 break;
 
             case 5:
-                long accountNumber = logInAccount.getID();
+                long accountNumber = logInAccount.getCardNumber();
                 AccountController.closeAccount(logInAccount);
                 logInAccount = null;
                 System.out.println("Your account #" + accountNumber + " has been deleted.\n");

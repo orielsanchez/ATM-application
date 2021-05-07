@@ -1,6 +1,6 @@
 package edu.sdccd.cisc191.f.server;
 
-import edu.sdccd.cisc191.f.server.model.Account;
+import edu.sdccd.cisc191.f.Account;
 
 public class ThreadDemo extends Thread {
     private static final int NUM_TRANSACTIONS = 10;

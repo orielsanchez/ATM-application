@@ -1,7 +1,7 @@
 package edu.sdccd.cisc191.f.server.controller;
 
 import edu.sdccd.cisc191.f.server.AccountUtils;
-import edu.sdccd.cisc191.f.server.model.Account;
+import edu.sdccd.cisc191.f.Account;
 import edu.sdccd.cisc191.f.server.Main;
 
 import java.sql.SQLException;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class AccountController {
 
     public static void updateAccount(Account account) {
-        Main.database.update(String.valueOf(account.getID()), account.getBalance());
+        Main.database.update(String.valueOf(account.getCardNumber()), account.getBalance());
     }
 
 
@@ -33,7 +33,7 @@ public class AccountController {
                 }
                 String numForCheck = recipientCardNumber.substring(0, 15);
                 String checkNum = numForCheck + AccountUtils.getLuhnNum(numForCheck);
-                if (recipientCardNumber.equals(String.valueOf(account.getID()))) {
+                if (recipientCardNumber.equals(String.valueOf(account.getCardNumber()))) {
                     System.out.println("You can't transfer money to the same account!");
                     System.out.println("Enter recipient's card number: ");
                     recipientCardNumber = Main.in.next();
@@ -70,7 +70,7 @@ public class AccountController {
         }
 
         try {
-            Main.database.transfer(String.valueOf(account.getID()), recipientCardNumber, amount);
+            Main.database.transfer(String.valueOf(account.getCardNumber()), recipientCardNumber, amount);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,7 +79,7 @@ public class AccountController {
     }
 
     public static void closeAccount(Account account) {
-        Main.database.delete(String.valueOf(account.getID()));
+        Main.database.delete(String.valueOf(account.getCardNumber()));
     }
 
     public static void createAccount() {
@@ -87,12 +87,12 @@ public class AccountController {
         Account account = AccountUtils.createAccount();
 
         //Add the account to the bank database
-        Main.database.insert(String.valueOf(account.getID()), account.getPIN(), account.getBalance());
+        Main.database.insert(String.valueOf(account.getCardNumber()), account.getPIN(), account.getBalance());
 
         //Print account information
         System.out.println("Your card has been created!");
         System.out.println("Your card number:");
-        System.out.println(account.getID());
+        System.out.println(account.getCardNumber());
         System.out.println("\nYour card PIN:");
         System.out.println(account.getPIN());
 
