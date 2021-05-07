@@ -42,6 +42,12 @@ public class DatabaseLab {
                   log.info(account1.toString());
               });
               log.info("");
+              log.info("Accounts found greater than X amount:");
+              log.info("-------------------------");
+              repository.findAccountsByBalanceGreaterThan(1000000).forEach(account1 -> {
+                  log.info(account1.toString());
+              });
+              log.info("");
           }
         };
     }

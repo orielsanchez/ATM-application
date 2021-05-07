@@ -10,6 +10,8 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
 
     List<Account> findAccountByCardNumber(long cardNumber);
     List<Account> findAccountsByBalanceEquals(int balance);
+    List<Account> findAccountsByBalanceGreaterThan(int bigMoney);
+
 
     Account findByID(long id);
 }
