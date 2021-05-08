@@ -1,6 +1,5 @@
 package edu.sdccd.cisc191.f.server;
 
-import edu.sdccd.cisc191.f.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -36,15 +35,15 @@ public class DatabaseLab {
           for (Account account : repository.findAll()) {
               log.info(account.toString());
               log.info("");
-              log.info("Accounts found by findBy:");
+              log.info("Accounts found by findAccountsByBalanceEquals(0):");
               log.info("-------------------------");
               repository.findAccountsByBalanceEquals(0).forEach(account1 -> {
                   log.info(account1.toString());
               });
               log.info("");
-              log.info("Accounts found greater than X amount:");
+              log.info("Accounts found greater than 1000 amount:");
               log.info("-------------------------");
-              repository.findAccountsByBalanceGreaterThan(1000000).forEach(account1 -> {
+              repository.findAccountsByBalanceGreaterThan(1000).forEach(account1 -> {
                   log.info(account1.toString());
               });
               log.info("");

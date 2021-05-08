@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191.f;
+package edu.sdccd.cisc191.f.server;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,6 +35,16 @@ public class Account {
         this.balance = balance;
     }
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "ID=" + ID +
+                ", cardNumber=" + cardNumber +
+                ", PIN='" + PIN + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
+
     public String getPIN() {
         return PIN;
     }
@@ -64,4 +74,6 @@ public class Account {
             return true;
         }
     }
+
+
 }

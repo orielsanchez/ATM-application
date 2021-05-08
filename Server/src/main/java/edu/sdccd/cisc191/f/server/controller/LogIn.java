@@ -2,7 +2,7 @@ package edu.sdccd.cisc191.f.server.controller;
 
 
 import edu.sdccd.cisc191.f.server.AccountUtils;
-import edu.sdccd.cisc191.f.Account;
+import edu.sdccd.cisc191.f.server.Account;
 import edu.sdccd.cisc191.f.server.Main;
 import edu.sdccd.cisc191.f.server.view.LogInMenu;
 
