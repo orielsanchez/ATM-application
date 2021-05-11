@@ -1,11 +1,7 @@
 package edu.sdccd.cisc191.f.client;
 
-import edu.sdccd.cisc191.f.CardRequest;
-import edu.sdccd.cisc191.f.CardResponse;
 import edu.sdccd.cisc191.f.PlayerRequest;
 import edu.sdccd.cisc191.f.PlayerResponse;
-import edu.sdccd.cisc191.f.EnemyRequest;
-import edu.sdccd.cisc191.f.EnemyResponse;
 
 import java.net.*;
 import java.io.*;
@@ -39,17 +35,6 @@ public class Client {
         return PlayerResponse.fromJSON(in.readLine());
     }
 
-    public CardResponse sendCardRequest() throws Exception {
-        out.println(CardRequest.toJSON(new CardRequest(1)));
-        return CardResponse.fromJSON(in.readLine());
-    }
-
-
-    public EnemyResponse sendEnemyRequest() throws Exception {
-        out.println(EnemyRequest.toJSON(new EnemyRequest(1)));
-        return EnemyResponse.fromJSON(in.readLine());
-    }
-
     public void stopConnection() throws IOException {
         in.close();
         out.close();
@@ -61,8 +46,6 @@ public class Client {
         try {
             client.startConnection("127.0.0.1", 4444);
             System.out.println(client.sendPlayerRequest().toString());
-            System.out.println(client.sendCardRequest().toString());
-            System.out.println(client.sendEnemyRequest().toString());
             client.stopConnection();
         } catch (Exception e) {
             e.printStackTrace();
