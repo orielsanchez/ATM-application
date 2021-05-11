@@ -2,6 +2,14 @@ package edu.sdccd.cisc191.f.server;
 
 import java.util.Random;
 
+/**
+ * This class is a utility class to create Account objects,
+ * generate 4 digit PINs. It contains the Luhn Algorithm,
+ * which is used to check if a card number is valid via a checksum.
+ *
+ * This class implements the Singleton design pattern.
+ */
+
 public class AccountUtils {
 
     private static final AccountUtils accountUtils = new AccountUtils();
