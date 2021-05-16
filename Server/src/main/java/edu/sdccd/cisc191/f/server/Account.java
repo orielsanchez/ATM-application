@@ -16,7 +16,7 @@ import java.util.UUID;
 public class Account {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long ID;
+    private long ID; // This is generated in SQL's database at the moment
     private long cardNumber; // This is the 16-digit card number
     private String PIN;   // This is a 4-digit PIN
     private double balance;        // represented in cents
