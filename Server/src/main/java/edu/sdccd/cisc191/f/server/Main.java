@@ -1,6 +1,7 @@
 package edu.sdccd.cisc191.f.server;
 
 import edu.sdccd.cisc191.f.server.view.MainMenu;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Scanner;
 
