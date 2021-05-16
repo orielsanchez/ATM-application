@@ -19,7 +19,7 @@ public class Database {
                 id INTEGER PRIMARY KEY,
                 number text NOT NULL,
                 pin TEXT,
-                balance INTEGER DEFAULT 0
+                balance DOUBLE DEFAULT 0
                 );""";
 
         try (
@@ -44,14 +44,14 @@ public class Database {
         return conn;
     }
 
-    public void insert(String cardNumber, String pin, int balance) {
+    public void insert(String cardNumber, String pin, double balance) {
         String sql = "INSERT INTO card(number, pin, balance) VALUES(?,?,?)";
 
         try (Connection connection = this.connect(filename)) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, cardNumber);
                 preparedStatement.setString(2, pin);
-                preparedStatement.setInt(3, balance);
+                preparedStatement.setDouble(3, balance);
                 preparedStatement.executeUpdate();
 
             }
@@ -64,10 +64,11 @@ public class Database {
         Account account = null;
         Long cn = null;
         String pin = null;
-        int balance = 0;
+        long id = 0;
+        double balance = 0;
         String number = String.valueOf(cardNumber);
 
-        String sql = "SELECT number, pin, balance "
+        String sql = "SELECT id, number, pin, balance "
                 + "FROM card WHERE number = ?";
 
         try (Connection connection = this.connect(filename);
@@ -76,9 +77,10 @@ public class Database {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                id = Long.parseLong(String.valueOf(resultSet.getInt("id")));
                 cn = resultSet.getLong("number");
                 pin = resultSet.getString("pin");
-                balance = resultSet.getInt("balance");
+                balance = resultSet.getDouble("balance");
             }
 
 
@@ -88,12 +90,12 @@ public class Database {
         }
 
         if (cn != null && pin != null) {
-            account = new Account(cn, pin, balance);
+            account = new Account(id, cn, pin, balance);
         }
         return account;
     }
 
-    public void update(String card_number, int newBalance) {
+    public void update(String card_number, double newBalance) {
         String sql = "UPDATE card SET balance = ? "
                 + "WHERE number = ?";
 
@@ -101,7 +103,7 @@ public class Database {
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
             // set the corresponding param
-            preparedStatement.setInt(1, newBalance);
+            preparedStatement.setDouble(1, newBalance);
             preparedStatement.setString(2, card_number);
             // update
             preparedStatement.executeUpdate();
@@ -124,7 +126,7 @@ public class Database {
         }
     }
 
-    public void transfer(String senderCardNumber, String recipientCardNumber, int amount) throws SQLException {
+    public void transfer(String senderCardNumber, String recipientCardNumber, double amount) throws SQLException {
         String removeFundsSQL = "UPDATE card SET balance = (balance - ?) WHERE number = ?";
         String addFundsSQL = "UPDATE card SET balance = (balance + ?) WHERE number = ?";
 
@@ -137,11 +139,11 @@ public class Database {
                     PreparedStatement removeFunds = connection.prepareStatement(removeFundsSQL);
                     PreparedStatement addFunds = connection.prepareStatement(addFundsSQL)
             ) {
-                removeFunds.setInt(1, amount);
+                removeFunds.setDouble(1, amount);
                 removeFunds.setString(2, senderCardNumber);
                 removeFunds.executeUpdate();
 
-                addFunds.setInt(1, amount);
+                addFunds.setDouble(1, amount);
                 addFunds.setString(2, recipientCardNumber);
                 addFunds.executeUpdate();
 

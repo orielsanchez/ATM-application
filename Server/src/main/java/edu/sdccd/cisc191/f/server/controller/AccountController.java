@@ -18,7 +18,7 @@ public class AccountController {
         boolean keepGoing = true;
         String amt;
         String recipientCardNumber = null;
-        int amount = 0;
+        double amount = 0;
         while (keepGoing) {
 
             System.out.println("Enter recipient's card number: ");
@@ -54,12 +54,12 @@ public class AccountController {
 
                 try {
                     amt = Main.in.next();
-                    if (Integer.parseInt(amt) > account.getBalance()) {
+                    if (Double.parseDouble(amt) > account.getBalance()) {
                         System.out.println("Not enough money!");
                         return false;
                     }
 
-                    amount = Integer.parseInt(amt);
+                    amount = Double.parseDouble(amt);
                 } catch (NumberFormatException e) {
                     e.getMessage();
                 }

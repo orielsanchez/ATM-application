@@ -34,9 +34,9 @@ public class AccountUtils {
     }
 
     public static Account createAccount() {
-        long ID = Long.parseLong(generateNumber());
+        long cardNumber = Long.parseLong(generateNumber());
         String PIN = generatePIN();
-        return new Account(ID, PIN, 0);
+        return new Account(cardNumber, PIN, 0);
     }
 
 

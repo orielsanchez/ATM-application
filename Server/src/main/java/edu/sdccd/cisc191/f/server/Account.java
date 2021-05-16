@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * This class represent a bank account at an ATM.
@@ -13,11 +15,11 @@ import javax.persistence.Id;
 @Entity
 public class Account {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long ID;
     private long cardNumber; // This is the 16-digit card number
     private String PIN;   // This is a 4-digit PIN
-    private int balance;        // represented in cents
+    private double balance;        // represented in cents
 
 
     protected Account() { }
@@ -29,7 +31,14 @@ public class Account {
      * @param balance account balance
      */
 
-    public Account(long cardNumber, String PIN, int balance) {
+    public Account(long cardNumber, String PIN, double balance) {
+        this.cardNumber = cardNumber;
+        this.PIN = PIN;
+        this.balance = balance;
+    }
+
+    public Account(long ID, long cardNumber, String PIN, double balance) {
+        this.ID = ID;
         this.cardNumber = cardNumber;
         this.PIN = PIN;
         this.balance = balance;
@@ -50,14 +59,18 @@ public class Account {
     }
 
     public long getCardNumber() {
-        return ID;
+        return cardNumber;
     }
 
-    public synchronized int getBalance() {
+    public synchronized double getBalance() {
         return balance;
     }
 
-    public synchronized boolean deposit(int amount) {
+    public long getID() {
+        return ID;
+    }
+
+    public synchronized boolean deposit(double amount) {
         if (amount >= 0) {
             this.balance += amount;
             return true;
@@ -66,7 +79,7 @@ public class Account {
         }
     }
 
-    public synchronized boolean withdraw(int amount) {
+    public synchronized boolean withdraw(double amount) {
         if (balance <= amount) {
             return false;
         } else {

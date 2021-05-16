@@ -33,28 +33,28 @@ public class LogInMenu {
                 break;
             case 2:
                 System.out.println("How much would you like to deposit?");
-                int depositAmount = -1;
+                double depositAmount = -1;
                 while (depositAmount < 0) {
-                    depositAmount = Main.in.nextInt();
+                    depositAmount = Main.in.nextDouble();
                 }
                 logInAccount.deposit(depositAmount);
                 AccountController.updateAccount(logInAccount);
                 System.out.println("\nFunds successfully added!");
-                System.out.println("Your balance is now " + logInAccount.getBalance() + "\n");
+                System.out.println("Your balance is now $" + logInAccount.getBalance() + "\n");
                 displayMenu();
                 break;
 
             case 3:
                 System.out.println("How much would you like to withdraw?");
-                int withdrawalAmount = -1;
+                double withdrawalAmount = -1;
                 while (withdrawalAmount < 0) {
-                    withdrawalAmount = Main.in.nextInt();
+                    withdrawalAmount = Main.in.nextDouble();
                 }
 
                 logInAccount.withdraw(withdrawalAmount);
                 AccountController.updateAccount(logInAccount);
                 System.out.println("\nWithdrawal successful!");
-                System.out.println("Your balance is now " + logInAccount.getBalance() + "\n");
+                System.out.println("Your balance is now $" + logInAccount.getBalance() + "\n");
                 displayMenu();
                 break;
 
@@ -64,6 +64,8 @@ public class LogInMenu {
                     //TODO Parse long from String
                     logInAccount = Main.database.getAccount(logInAccount.getCardNumber());
                     System.out.println("Funds have been transferred!");
+                    System.out.println("Your balance is now $" + logInAccount.getBalance() + "\n");
+
                 }
                 displayMenu();
                 break;
