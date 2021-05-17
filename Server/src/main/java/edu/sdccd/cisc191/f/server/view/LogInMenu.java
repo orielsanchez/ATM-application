@@ -32,12 +32,17 @@ public class LogInMenu {
                 displayMenu();
                 break;
             case 2:
-                System.out.println("How much would you like to deposit?");
-                double depositAmount = -1;
-                while (depositAmount < 0) {
-                    depositAmount = Main.in.nextDouble();
+                boolean depositSuccessful;
+                while (true) {
+                    System.out.println("How much would you like to deposit?");
+                    double depositAmount = Main.in.nextDouble();
+                    depositSuccessful = logInAccount.deposit(depositAmount);
+                    if (depositSuccessful) {
+                        break;
+                    } else {
+                        System.out.println("Deposit unsuccessful. Please try again.\n");
+                    }
                 }
-                logInAccount.deposit(depositAmount);
                 AccountController.updateAccount(logInAccount);
                 System.out.println("\nFunds successfully added!");
                 System.out.println("Your balance is now $" + logInAccount.getBalance() + "\n");
@@ -45,13 +50,17 @@ public class LogInMenu {
                 break;
 
             case 3:
-                System.out.println("How much would you like to withdraw?");
-                double withdrawalAmount = -1;
-                while (withdrawalAmount < 0) {
-                    withdrawalAmount = Main.in.nextDouble();
+                boolean withdrawalSuccessful;
+                while (true) {
+                    System.out.println("How much would you like to withdraw?");
+                    double withdrawalAmount = Main.in.nextDouble();
+                    withdrawalSuccessful = logInAccount.withdraw(withdrawalAmount);
+                    if (withdrawalSuccessful) {
+                        break;
+                    } else {
+                        System.out.println("Withdrawal unsuccessful. Please try again.\n");
+                    }
                 }
-
-                logInAccount.withdraw(withdrawalAmount);
                 AccountController.updateAccount(logInAccount);
                 System.out.println("\nWithdrawal successful!");
                 System.out.println("Your balance is now $" + logInAccount.getBalance() + "\n");
@@ -61,11 +70,9 @@ public class LogInMenu {
             case 4:
                 boolean fundsTransferred = AccountController.transferFunds(logInAccount);
                 if (fundsTransferred) {
-                    //TODO Parse long from String
                     logInAccount = Main.database.getAccount(logInAccount.getCardNumber());
                     System.out.println("Funds have been transferred!");
                     System.out.println("Your balance is now $" + logInAccount.getBalance() + "\n");
-
                 }
                 displayMenu();
                 break;
