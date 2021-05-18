@@ -10,9 +10,22 @@ public class Main {
     public static MainMenu mainMenu = new MainMenu();
     public static Database database = new Database();
     public static void main(String[] args) {
+
+        // Server
+        Server server = new Server();
+        try {
+            server.start(4444);
+            server.stop();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        // Setup Database
         String filename = "main.db";
         Database.setDatabaseFileName(filename);
         Database.createNewTable(filename);
+
+        // Show Menu
         mainMenu.show();
     }
 }

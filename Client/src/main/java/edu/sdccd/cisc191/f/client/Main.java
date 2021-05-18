@@ -27,6 +27,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        // Client
+        Client client = new Client();
+        try {
+            client.startConnection("127.0.0.1", 4444);
+            System.out.println(client.sendAccountRequest().toString());
+            client.stopConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // Login Scene
         VBox loginVBox = new VBox();
         loginVBox.setPadding(new Insets(10));

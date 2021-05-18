@@ -1,7 +1,7 @@
 package edu.sdccd.cisc191.f.client;
 
-import edu.sdccd.cisc191.f.PlayerRequest;
-import edu.sdccd.cisc191.f.PlayerResponse;
+import edu.sdccd.cisc191.f.AccountRequest;
+import edu.sdccd.cisc191.f.AccountResponse;
 
 import java.net.*;
 import java.io.*;
@@ -30,26 +30,15 @@ public class Client {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
-    public PlayerResponse sendPlayerRequest() throws Exception {
-        out.println(PlayerRequest.toJSON(new PlayerRequest(1)));
-        return PlayerResponse.fromJSON(in.readLine());
+    public AccountResponse sendAccountRequest() throws Exception {
+        out.println(AccountRequest.toJSON(new AccountRequest(8439L, "4332")));
+        return AccountResponse.fromJSON(in.readLine());
     }
 
     public void stopConnection() throws IOException {
         in.close();
         out.close();
         clientSocket.close();
-    }
-
-    public static void main(String[] args) {
-        Client client = new Client();
-        try {
-            client.startConnection("127.0.0.1", 4444);
-            System.out.println(client.sendPlayerRequest().toString());
-            client.stopConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 } //end class Client
 
