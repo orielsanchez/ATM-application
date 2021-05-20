@@ -1,25 +1,19 @@
 package edu.sdccd.cisc191.f.client;
 
+import edu.sdccd.cisc191.f.Account;
+import edu.sdccd.cisc191.f.AccountResponse;
 import javafx.application.Application;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.converter.IntegerStringConverter;
-import java.util.function.UnaryOperator;
-import java.util.regex.Pattern;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class Main extends Application {
@@ -29,13 +23,7 @@ public class Main extends Application {
 
         // Client
         Client client = new Client();
-        try {
-            client.startConnection("127.0.0.1", 4444);
-            System.out.println(client.sendAccountRequest().toString());
-            client.stopConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        final Account[] account = new Account[1];
 
         // Login Scene
         VBox loginVBox = new VBox();
@@ -78,13 +66,6 @@ public class Main extends Application {
         GridPane.setFillWidth(createAccountButton, true);
         gridPane.add(createAccountButton, 1, 2);
 
-        // Create Formatter to force numeric only fields
-//        TextFormatter sixteenDigitFormatter = getTextFormatter("[0-9].{0,15}");
-//        TextFormatter fourDigitFormatter = getTextFormatter("[0-9].{0,3}");
-//
-//        cardNumberField.setTextFormatter(sixteenDigitFormatter);
-//        PINField.setTextFormatter(fourDigitFormatter);
-
         // Setup LoginScene
         loginVBox.getChildren().addAll(ATMLabel, gridPane);
         Scene loginScene = new Scene(loginVBox);
@@ -109,12 +90,35 @@ public class Main extends Application {
 
         // Button Actions
         //playButton.setOnAction(event -> primaryStage.setScene(loginScene));
-    }
 
-//    private TextFormatter getTextFormatter(String s) {
-//        Pattern pattern = Pattern.compile(s);
-//        return new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
-//            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
-//        });
-//    }
+        // Send a login request to server
+        loginButton.setOnAction(event -> {
+            try {
+                client.startConnection("127.0.0.1", 4444);
+                AccountResponse accountResponse = client.sendAccountRequest(Long.parseLong(cardNumberField.getText()), PINField.getText());
+                if (accountResponse != null) {
+                    account[0] = new Account(accountResponse.getId(), accountResponse.getCardNumber(), accountResponse.getPIN(), accountResponse.getBalance());
+                    System.out.println(account[0]);
+                }
+                client.stopConnection();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // Send a blank request to server to create an account
+        createAccountButton.setOnAction(event -> {
+            try {
+                client.startConnection("127.0.0.1", 4444);
+                AccountResponse accountResponse = client.sendAccountRequest(0L, "0");
+                account[0] = new Account(accountResponse.getId(), accountResponse.getCardNumber(), accountResponse.getPIN(), accountResponse.getBalance());
+                cardNumberField.setText(String.valueOf(account[0].getCardNumber()));
+                PINField.setText(account[0].getPIN());
+                System.out.println(client.sendAccountRequest(0L, "0").toString());
+                client.stopConnection();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }

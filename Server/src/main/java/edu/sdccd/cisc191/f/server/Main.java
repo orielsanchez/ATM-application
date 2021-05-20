@@ -11,7 +11,16 @@ public class Main {
     public static Database database = new Database();
     public static void main(String[] args) {
 
-        // Server
+        // Setup Database
+        String filename = "main.db";
+        Database.setDatabaseFileName(filename);
+        Database.createNewTable(filename);
+
+        // Show Menu
+        // mainMenu.show();
+
+
+        // Setup and start Server
         Server server = new Server();
         try {
             server.start(4444);
@@ -19,13 +28,5 @@ public class Main {
         } catch(Exception e) {
             e.printStackTrace();
         }
-
-        // Setup Database
-        String filename = "main.db";
-        Database.setDatabaseFileName(filename);
-        Database.createNewTable(filename);
-
-        // Show Menu
-        mainMenu.show();
     }
 }

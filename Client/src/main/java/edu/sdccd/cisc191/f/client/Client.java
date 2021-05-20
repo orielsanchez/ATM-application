@@ -30,8 +30,8 @@ public class Client {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
-    public AccountResponse sendAccountRequest() throws Exception {
-        out.println(AccountRequest.toJSON(new AccountRequest(8439L, "4332")));
+    public AccountResponse sendAccountRequest(long cardNumber, String PIN) throws Exception {
+        out.println(AccountRequest.toJSON(new AccountRequest(cardNumber, PIN)));
         return AccountResponse.fromJSON(in.readLine());
     }
 

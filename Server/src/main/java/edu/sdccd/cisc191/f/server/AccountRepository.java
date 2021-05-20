@@ -1,5 +1,6 @@
 package edu.sdccd.cisc191.f.server;
 
+import edu.sdccd.cisc191.f.Account;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

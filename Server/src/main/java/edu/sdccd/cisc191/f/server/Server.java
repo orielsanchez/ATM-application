@@ -1,5 +1,6 @@
 package edu.sdccd.cisc191.f.server;
 
+import edu.sdccd.cisc191.f.Account;
 import edu.sdccd.cisc191.f.AccountRequest;
 import edu.sdccd.cisc191.f.AccountResponse;
 
@@ -31,8 +32,36 @@ public class Server {
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
             AccountRequest request = AccountRequest.fromJSON(inputLine);
-            AccountResponse response = new AccountResponse(1, request.getCardNumber(), request.getPIN(), 0.0);
-            out.println(AccountResponse.toJSON(response));
+
+            long cardNumber = request.getCardNumber();
+            String PIN = request.getPIN();
+            Account account;
+
+            if (cardNumber == 0L && PIN.equals("0")) {
+                account = AccountUtils.createAccount();
+            } else {
+                String numForCheck = String.valueOf(cardNumber).substring(0, 15);
+                String checkNum = numForCheck + AccountUtils.getLuhnNum(numForCheck);
+
+                if (!checkNum.equals(String.valueOf(cardNumber))) {
+                    account = null;
+                } else {
+                    account = Main.database.getAccount(cardNumber);
+                }
+
+                if (account == null || !PIN.equals(account.getPIN())) {
+                    System.out.println("Wrong card number or PIN!\n");
+                } else {
+                    System.out.println("Successful login!");
+                }
+            }
+            if (account != null) {
+                AccountResponse response = new AccountResponse(account.getID(),
+                        account.getCardNumber(),
+                        account.getPIN(),
+                        account.getBalance());
+                out.println(AccountResponse.toJSON(response));
+            }
         }
     }
 

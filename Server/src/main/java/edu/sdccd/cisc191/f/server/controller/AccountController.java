@@ -1,7 +1,7 @@
 package edu.sdccd.cisc191.f.server.controller;
 
 import edu.sdccd.cisc191.f.server.AccountUtils;
-import edu.sdccd.cisc191.f.server.Account;
+import edu.sdccd.cisc191.f.Account;
 import edu.sdccd.cisc191.f.server.Main;
 
 import java.sql.SQLException;
@@ -70,7 +70,10 @@ public class AccountController {
         }
 
         try {
-            Main.database.transfer(String.valueOf(account.getCardNumber()), recipientCardNumber, amount);
+            Main.database.transfer(
+                    String.valueOf(account.getCardNumber()),
+                    recipientCardNumber,
+                    amount);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -87,7 +90,10 @@ public class AccountController {
         Account account = AccountUtils.createAccount();
 
         //Add the account to the bank database
-        Main.database.insert(String.valueOf(account.getCardNumber()), account.getPIN(), account.getBalance());
+        Main.database.insert(
+                String.valueOf(account.getCardNumber()),
+                account.getPIN(),
+                account.getBalance());
 
         //Print account information
         System.out.println("Your card has been created!");
