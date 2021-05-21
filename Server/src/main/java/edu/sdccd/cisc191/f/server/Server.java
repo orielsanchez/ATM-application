@@ -37,11 +37,14 @@ public class Server {
 
             long cardNumber = request.getCardNumber();
             String PIN = request.getPIN();
+            System.out.println("accountrequest info received: " + cardNumber + " " + PIN);
             Account account;
 
             if (cardNumber == 0L && PIN.equals("0")) {
                 account = AccountUtils.createAccount();
                 AccountController.addAccountToDatabase(account);
+            } else if (String.valueOf(cardNumber).length() != 16) {
+                account = null;
             } else {
                 String numForCheck = String.valueOf(cardNumber).substring(0, 15);
                 String checkNum = numForCheck + AccountUtils.getLuhnNum(numForCheck);
@@ -54,6 +57,7 @@ public class Server {
 
                 if (account == null || !PIN.equals(account.getPIN())) {
                     System.out.println("Wrong card number or PIN!\n");
+                    account = null;
                 } else {
                     System.out.println("Successful login!");
                 }
@@ -65,6 +69,8 @@ public class Server {
                         account.getPIN(),
                         account.getBalance());
                 out.println(AccountResponse.toJSON(response));
+            } else {
+                out.println(AccountResponse.toJSON(new AccountResponse(-1, -1L, "-1", -1)));
             }
         }
     }

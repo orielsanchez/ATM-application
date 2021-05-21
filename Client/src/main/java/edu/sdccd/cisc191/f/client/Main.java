@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -125,12 +126,23 @@ public class Main extends Application {
         // Send a login request to server
         loginButton.setOnAction(event -> {
             try {
-                AccountResponse accountResponse = client.sendAccountRequest(Long.parseLong(cardNumberField.getText()), PINField.getText());
-                if (accountResponse != null) {
-                    account[0] = new Account(accountResponse.getId(), accountResponse.getCardNumber(), accountResponse.getPIN(), accountResponse.getBalance());
-                    activeCardNumberField.setText(String.valueOf(account[0].getCardNumber()));
-                    currentBalanceField.setText(String.valueOf(account[0].getBalance()));
-                    primaryStage.setScene(mainMenuScene);
+                if (!cardNumberField.getText().equals("") && !PINField.getText().equals("")) {
+                    long cardNumber = Long.parseLong(cardNumberField.getText());
+                    String PIN = PINField.getText();
+                    System.out.println("login button pressed, send account request info: " + cardNumber + " " + PIN);
+                    AccountResponse accountResponse = client.sendAccountRequest(cardNumber, PIN);
+                    System.out.println(accountResponse.toString());
+                    if (accountResponse.getId() != -1) {
+                        account[0] = new Account(accountResponse.getId(), accountResponse.getCardNumber(), accountResponse.getPIN(), accountResponse.getBalance());
+                        activeCardNumberField.setText(String.valueOf(account[0].getCardNumber()));
+                        currentBalanceField.setText(String.valueOf(account[0].getBalance()));
+                        primaryStage.setScene(mainMenuScene);
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setHeaderText("Invalid Card Number or PIN!");
+                        alert.setContentText("Please try again");
+                        alert.showAndWait();
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
