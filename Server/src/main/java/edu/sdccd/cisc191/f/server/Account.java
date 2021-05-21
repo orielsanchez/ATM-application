@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191.f;
+package edu.sdccd.cisc191.f.server;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,10 +10,10 @@ import javax.persistence.Id;
  *
  */
 
-@Entity
+@Entity(name ="Account")
 public class Account {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private long ID; // This is generated in SQL's database at the moment
     private long cardNumber; // This is the 16-digit card number
     private String PIN;   // This is a 4-digit PIN

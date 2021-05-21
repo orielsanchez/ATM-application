@@ -1,6 +1,6 @@
 package edu.sdccd.cisc191.f.client;
 
-import edu.sdccd.cisc191.f.Account;
+import edu.sdccd.cisc191.f.server.Account;
 import edu.sdccd.cisc191.f.AccountResponse;
 import javafx.application.Application;
 import javafx.geometry.Insets;

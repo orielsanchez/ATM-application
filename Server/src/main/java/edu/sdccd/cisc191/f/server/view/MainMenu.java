@@ -1,6 +1,6 @@
 package edu.sdccd.cisc191.f.server.view;
 
-import edu.sdccd.cisc191.f.Account;
+import edu.sdccd.cisc191.f.server.Account;
 import edu.sdccd.cisc191.f.server.Main;
 import edu.sdccd.cisc191.f.server.controller.AccountController;
 import edu.sdccd.cisc191.f.server.controller.LogIn;

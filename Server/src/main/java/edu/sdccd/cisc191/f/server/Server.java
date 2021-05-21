@@ -1,6 +1,5 @@
 package edu.sdccd.cisc191.f.server;
 
-import edu.sdccd.cisc191.f.Account;
 import edu.sdccd.cisc191.f.AccountRequest;
 import edu.sdccd.cisc191.f.AccountResponse;
 import edu.sdccd.cisc191.f.server.controller.AccountController;
@@ -24,12 +23,14 @@ public class Server {
     private PrintWriter out;
     private BufferedReader in;
 
-    public void start(int port) throws Exception {
+    public void start(int port, AccountRepository accountRepository) throws Exception {
         System.out.println("Server started...");
         serverSocket = new ServerSocket(port);
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        AccountController.setAccountRepository(accountRepository);
+
 
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
@@ -52,7 +53,9 @@ public class Server {
                 if (!checkNum.equals(String.valueOf(cardNumber))) {
                     account = null;
                 } else {
-                    account = Main.database.getAccount(cardNumber);
+
+                    account = accountRepository.findAccountByCardNumber(cardNumber);
+                    // account = Main.database.getAccount(cardNumber);
                 }
 
                 if (account == null || !PIN.equals(account.getPIN())) {

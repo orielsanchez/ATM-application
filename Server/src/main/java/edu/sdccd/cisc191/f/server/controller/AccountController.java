@@ -1,12 +1,16 @@
 package edu.sdccd.cisc191.f.server.controller;
 
+import edu.sdccd.cisc191.f.server.AccountRepository;
 import edu.sdccd.cisc191.f.server.AccountUtils;
-import edu.sdccd.cisc191.f.Account;
+import edu.sdccd.cisc191.f.server.Account;
 import edu.sdccd.cisc191.f.server.Main;
 
 import java.sql.SQLException;
 
 public class AccountController {
+
+    private static AccountRepository accountRepository;
+
 
     public static void updateAccount(Account account) {
         Main.database.update(String.valueOf(account.getCardNumber()), account.getBalance());
@@ -82,12 +86,12 @@ public class AccountController {
     }
 
     public static void closeAccount(Account account) {
-        Main.database.delete(String.valueOf(account.getCardNumber()));
+        accountRepository.delete(account);
+        // Main.database.delete(String.valueOf(account.getCardNumber()));
     }
 
     public static Account createAccount() {
-        Account account = AccountUtils.createAccount();
-        return account;
+        return AccountUtils.createAccount();
     }
 
     public static void displayAccountInfo(Account account) {
@@ -104,10 +108,18 @@ public class AccountController {
 
     }
     public static void addAccountToDatabase(Account account) {
-        //Add the account to the bank database
-        Main.database.insert(
-                String.valueOf(account.getCardNumber()),
-                account.getPIN(),
-                account.getBalance());
+
+        // add account to postgresql database
+        accountRepository.save(account);
+
+        //Add the account to sql databse
+//        Main.database.insert(
+//                String.valueOf(account.getCardNumber()),
+//                account.getPIN(),
+//                account.getBalance());
+    }
+
+    public static void setAccountRepository(AccountRepository accountRepository) {
+        AccountController.accountRepository = accountRepository;
     }
 }
