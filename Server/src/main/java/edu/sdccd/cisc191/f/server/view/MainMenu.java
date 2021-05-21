@@ -1,5 +1,6 @@
 package edu.sdccd.cisc191.f.server.view;
 
+import edu.sdccd.cisc191.f.Account;
 import edu.sdccd.cisc191.f.server.Main;
 import edu.sdccd.cisc191.f.server.controller.AccountController;
 import edu.sdccd.cisc191.f.server.controller.LogIn;
@@ -17,7 +18,9 @@ public class MainMenu {
         System.out.println();
         switch (command) {
             case 1:
-                AccountController.createAccount();
+                Account account = AccountController.createAccount();
+                AccountController.addAccountToDatabase(account);
+                AccountController.displayAccountInfo(account);
                 break;
             case 2:
                 new LogIn();

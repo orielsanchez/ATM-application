@@ -85,16 +85,12 @@ public class AccountController {
         Main.database.delete(String.valueOf(account.getCardNumber()));
     }
 
-    public static void createAccount() {
-        //Create the account
+    public static Account createAccount() {
         Account account = AccountUtils.createAccount();
+        return account;
+    }
 
-        //Add the account to the bank database
-        Main.database.insert(
-                String.valueOf(account.getCardNumber()),
-                account.getPIN(),
-                account.getBalance());
-
+    public static void displayAccountInfo(Account account) {
         //Print account information
         System.out.println("Your card has been created!");
         System.out.println("Your card number:");
@@ -105,5 +101,13 @@ public class AccountController {
         System.out.println();
         account = null;
         Main.mainMenu.show();
+
+    }
+    public static void addAccountToDatabase(Account account) {
+        //Add the account to the bank database
+        Main.database.insert(
+                String.valueOf(account.getCardNumber()),
+                account.getPIN(),
+                account.getBalance());
     }
 }

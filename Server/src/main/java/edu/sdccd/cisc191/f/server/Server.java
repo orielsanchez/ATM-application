@@ -3,6 +3,7 @@ package edu.sdccd.cisc191.f.server;
 import edu.sdccd.cisc191.f.Account;
 import edu.sdccd.cisc191.f.AccountRequest;
 import edu.sdccd.cisc191.f.AccountResponse;
+import edu.sdccd.cisc191.f.server.controller.AccountController;
 
 import java.net.*;
 import java.io.*;
@@ -24,6 +25,7 @@ public class Server {
     private BufferedReader in;
 
     public void start(int port) throws Exception {
+        System.out.println("Server started...");
         serverSocket = new ServerSocket(port);
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -39,6 +41,7 @@ public class Server {
 
             if (cardNumber == 0L && PIN.equals("0")) {
                 account = AccountUtils.createAccount();
+                AccountController.addAccountToDatabase(account);
             } else {
                 String numForCheck = String.valueOf(cardNumber).substring(0, 15);
                 String checkNum = numForCheck + AccountUtils.getLuhnNum(numForCheck);
@@ -55,6 +58,7 @@ public class Server {
                     System.out.println("Successful login!");
                 }
             }
+
             if (account != null) {
                 AccountResponse response = new AccountResponse(account.getID(),
                         account.getCardNumber(),

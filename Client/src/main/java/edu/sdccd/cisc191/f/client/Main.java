@@ -13,9 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.concurrent.atomic.AtomicReference;
-
-
 public class Main extends Application {
 
     @Override
@@ -23,6 +20,7 @@ public class Main extends Application {
 
         // Client
         Client client = new Client();
+        client.startConnection("127.0.0.1", 4444);
         final Account[] account = new Account[1];
 
         // Login Scene
@@ -77,30 +75,63 @@ public class Main extends Application {
         primaryStage.show();
 
 
-        // Show Balance Scene
+        // Main Menu Scene
+        VBox mainMenuVBox = new VBox();
+        mainMenuVBox.setAlignment(Pos.CENTER);
+        mainMenuVBox.setPadding(new Insets(10));
+        mainMenuVBox.setSpacing(10);
 
-        // Deposit Scene
+        Label mainMenuTitleLabel = new Label("Welcome to the Bank of Group F");
 
-        // Withdraw Scene
+        GridPane mainMenuGridPane = new GridPane();
+        mainMenuGridPane.setPadding(new Insets(10));
+        mainMenuGridPane.setAlignment(Pos.CENTER);
+        mainMenuGridPane.setVgap(5);
+        mainMenuGridPane.setHgap(5);
+        mainMenuGridPane.setMinWidth(300);
 
-        // Transfer Funds Scene
+        Label activeCardNumberLabel = new Label("Card Number: ");
+        Label activeCardNumberField = new Label();
+        mainMenuGridPane.add(activeCardNumberLabel, 0, 0);
+        mainMenuGridPane.add(activeCardNumberField, 1, 0);
 
-        // Close Account Scene
+        Label currentBalanceLabel = new Label("Balance: ");
+        Label currentBalanceField = new Label();
+        mainMenuGridPane.add(currentBalanceLabel, 0, 1);
+        mainMenuGridPane.add(currentBalanceField, 1, 1);
 
+        Button depositMenuButton = new Button("Deposit");
+        Button withdrawMenuButton = new Button("Withdraw");
+        Button transferFundsMenuButton = new Button("Transfer Funds");
+        Button logOutMenuButton = new Button("Log Out");
 
-        // Button Actions
-        //playButton.setOnAction(event -> primaryStage.setScene(loginScene));
+        depositMenuButton.setMaxWidth(Double.MAX_VALUE);
+        withdrawMenuButton.setMaxWidth(Double.MAX_VALUE);
+        transferFundsMenuButton.setMaxWidth(Double.MAX_VALUE);
+        logOutMenuButton.setMaxWidth(Double.MAX_VALUE);
+        GridPane.setFillWidth(depositMenuButton, true);
+        GridPane.setFillWidth(withdrawMenuButton, true);
+        GridPane.setFillWidth(transferFundsMenuButton, true);
+        GridPane.setFillWidth(logOutMenuButton, true);
+
+        mainMenuGridPane.add(depositMenuButton, 0, 2);
+        mainMenuGridPane.add(withdrawMenuButton, 1, 2);
+        mainMenuGridPane.add(transferFundsMenuButton, 0, 3);
+        mainMenuGridPane.add(logOutMenuButton, 1, 3);
+
+        mainMenuVBox.getChildren().addAll(mainMenuTitleLabel, mainMenuGridPane);
+        Scene mainMenuScene = new Scene(mainMenuVBox);
 
         // Send a login request to server
         loginButton.setOnAction(event -> {
             try {
-                client.startConnection("127.0.0.1", 4444);
                 AccountResponse accountResponse = client.sendAccountRequest(Long.parseLong(cardNumberField.getText()), PINField.getText());
                 if (accountResponse != null) {
                     account[0] = new Account(accountResponse.getId(), accountResponse.getCardNumber(), accountResponse.getPIN(), accountResponse.getBalance());
-                    System.out.println(account[0]);
+                    activeCardNumberField.setText(String.valueOf(account[0].getCardNumber()));
+                    currentBalanceField.setText(String.valueOf(account[0].getBalance()));
+                    primaryStage.setScene(mainMenuScene);
                 }
-                client.stopConnection();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -109,16 +140,21 @@ public class Main extends Application {
         // Send a blank request to server to create an account
         createAccountButton.setOnAction(event -> {
             try {
-                client.startConnection("127.0.0.1", 4444);
                 AccountResponse accountResponse = client.sendAccountRequest(0L, "0");
                 account[0] = new Account(accountResponse.getId(), accountResponse.getCardNumber(), accountResponse.getPIN(), accountResponse.getBalance());
                 cardNumberField.setText(String.valueOf(account[0].getCardNumber()));
                 PINField.setText(account[0].getPIN());
-                System.out.println(client.sendAccountRequest(0L, "0").toString());
-                client.stopConnection();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
+
+        // Log out button pressed
+        logOutMenuButton.setOnAction(event -> {
+            account[0] = null;
+            primaryStage.setScene(loginScene);
+        });
+
+
     }
 }
