@@ -1,6 +1,7 @@
 package edu.sdccd.cisc191.f.client;
 
 import edu.sdccd.cisc191.f.DepositResponse;
+import edu.sdccd.cisc191.f.WithdrawResponse;
 import edu.sdccd.cisc191.f.server.Account;
 import edu.sdccd.cisc191.f.AccountResponse;
 import javafx.application.Application;
@@ -167,6 +168,84 @@ public class Main extends Application {
         depositStage.setTitle("Deposit");
         depositStage.setResizable(false);
 
+        // Show Deposit Stage
+        depositMenuButton.setOnAction(event -> {
+            depositMenuCurrentBalanceField.setText(String.valueOf(account[0].getBalance()));
+            depositStage.showAndWait();
+        });
+
+        // Send deposit request
+        depositButton.setOnAction(event -> {
+            try {
+                DepositResponse depositResponse = client.sendDepositRequest(account[0].getCardNumber(), Double.parseDouble(depositAmountField.getText()));
+                account[0] = new Account(depositResponse.getId(), depositResponse.getCardNumber(), depositResponse.getPIN(), depositResponse.getBalance());
+                currentBalanceField.setText(String.valueOf(account[0].getBalance()));
+                depositStage.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // Withdraw Scene
+        Stage withdrawStage = new Stage();
+
+        VBox withdrawVBox = new VBox();
+        withdrawVBox.setAlignment(Pos.CENTER);
+        withdrawVBox.setPadding(new Insets(10));
+        withdrawVBox.setSpacing(10);
+
+        Label withdrawMenuTitle = new Label("WITHDRAW");
+        withdrawMenuTitle.setFont(new Font("Helvetica", 20));
+
+        GridPane withdrawMenuGridPane = new GridPane();
+        withdrawMenuGridPane.setPadding(new Insets(10));
+        withdrawMenuGridPane.setAlignment(Pos.CENTER);
+        withdrawMenuGridPane.setVgap(5);
+        withdrawMenuGridPane.setHgap(5);
+        withdrawMenuGridPane.setMinWidth(200);
+
+        Label withdrawMenuCurrentBalance = new Label("Current Balance: ");
+        Label withdrawMenuCurrentBalanceField = new Label();
+        Label withdrawTextLabel = new Label("How much would you like to withdraw?");
+        RestrictiveTextField withdrawAmountField = new RestrictiveTextField();
+        withdrawAmountField.setRestrict("[0-9]");
+        withdrawAmountField.setMaxLength(10);
+
+        Button withdrawButton = new Button("Withdraw");
+        withdrawButton.setMaxWidth(Double.MAX_VALUE);
+        GridPane.setFillWidth(withdrawButton, true);
+
+        withdrawMenuGridPane.add(withdrawMenuCurrentBalance, 0, 0);
+        withdrawMenuGridPane.add(withdrawMenuCurrentBalanceField, 1, 0);
+        withdrawMenuGridPane.add(withdrawTextLabel, 0, 1);
+        withdrawMenuGridPane.add(withdrawAmountField, 1, 1);
+        withdrawMenuGridPane.add(withdrawButton, 1, 2);
+
+        withdrawVBox.getChildren().addAll(withdrawMenuTitle, withdrawMenuGridPane);
+        Scene withdrawScene = new Scene(withdrawVBox);
+        withdrawStage.setScene(withdrawScene);
+        withdrawStage.initModality(Modality.APPLICATION_MODAL);
+        withdrawStage.setTitle("Withdraw");
+        withdrawStage.setResizable(false);
+
+        // Show Withdaw Stage
+        withdrawMenuButton.setOnAction(event -> {
+            withdrawMenuCurrentBalanceField.setText(String.valueOf(account[0].getBalance()));
+            withdrawStage.showAndWait();
+        });
+
+        // Send withdraw request
+        withdrawButton.setOnAction(event -> {
+            try {
+                WithdrawResponse withdrawResponse = client.sendWithdrawRequest(account[0].getCardNumber(), Double.parseDouble(withdrawAmountField.getText()));
+                account[0] = new Account(withdrawResponse.getId(), withdrawResponse.getCardNumber(), withdrawResponse.getPIN(), withdrawResponse.getBalance());
+                currentBalanceField.setText(String.valueOf(account[0].getBalance()));
+                withdrawStage.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
 
         // Send a login request to server
         loginButton.setOnAction(event -> {
@@ -194,23 +273,7 @@ public class Main extends Application {
             }
         });
 
-        // Show Deposit Stage
-        depositMenuButton.setOnAction(event -> {
-            depositMenuCurrentBalanceField.setText(String.valueOf(account[0].getBalance()));
-            depositStage.showAndWait();
-        });
 
-        // Send deposit request
-        depositButton.setOnAction(event -> {
-            try {
-                DepositResponse depositResponse = client.sendDepositRequest(account[0].getCardNumber(), Double.parseDouble(depositAmountField.getText()));
-                account[0] = new Account(depositResponse.getId(), depositResponse.getCardNumber(), depositResponse.getPIN(), depositResponse.getBalance());
-                currentBalanceField.setText(String.valueOf(account[0].getBalance()));
-                depositStage.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
         // Send a blank request to server to create an account
         createAccountButton.setOnAction(event -> {
             try {

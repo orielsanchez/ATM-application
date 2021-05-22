@@ -39,6 +39,11 @@ public class Client {
         return DepositResponse.fromJSON(in.readLine());
     }
 
+    public WithdrawResponse sendWithdrawRequest(long cardNumber, double withdrawAmount) throws Exception {
+        out.println(WithdrawRequest.toJSON(new WithdrawRequest(RequestType.WIT, cardNumber, withdrawAmount)));
+        return WithdrawResponse.fromJSON(in.readLine());
+    }
+
     public void stopConnection() throws IOException {
         in.close();
         out.close();

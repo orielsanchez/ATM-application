@@ -5,7 +5,6 @@ import edu.sdccd.cisc191.f.server.controller.AccountController;
 
 import java.net.*;
 import java.io.*;
-import java.util.Objects;
 
 /**
  * This program is a server that takes connection requests on
@@ -99,6 +98,20 @@ public class Server {
                     break;
 
                 case WIT:
+                    WithdrawRequest withdrawRequest = WithdrawRequest.fromJSON(inputLine);
+                    if (withdrawRequest != null) {
+                        account = accountRepository.findAccountByCardNumber(withdrawRequest.getCardNumber());
+                        boolean withdrawSuccessful = account.withdraw(withdrawRequest.getWithdrawAmount());
+                        if (withdrawSuccessful) {
+                            AccountController.updateAccount(account);
+                            WithdrawResponse withdrawResponse = new WithdrawResponse(account.getID(), account.getCardNumber(), account.getPIN(), account.getBalance());
+                            out.println(WithdrawResponse.toJSON(withdrawResponse));
+                        } else {
+                            System.out.println("Withdraw unsuccessful");
+                            WithdrawResponse withdrawResponse = new WithdrawResponse(account.getID(), account.getCardNumber(), account.getPIN(), account.getBalance());
+                            out.println(WithdrawResponse.toJSON(withdrawResponse));
+                        }
+                    }
                     break;
 
                 case TRA:
