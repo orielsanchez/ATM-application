@@ -1,7 +1,6 @@
 package edu.sdccd.cisc191.f.server;
 
 import edu.sdccd.cisc191.f.*;
-import edu.sdccd.cisc191.f.server.controller.AccountController;
 
 import java.net.*;
 import java.io.*;
@@ -34,7 +33,7 @@ public class Server {
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
             Account account;
-            Account transfereeAccount;
+            Account recipientAccount;
             RequestType requestType = RequestTypeParser.parseRequestType(inputLine);
             System.out.println(requestType);
 
@@ -115,13 +114,25 @@ public class Server {
                     break;
 
                 case TRA:
+                    TransferFundsRequest transferFundsRequest = TransferFundsRequest.fromJSON(inputLine);
+                    if (transferFundsRequest != null) {
+                        account = accountRepository.findAccountByCardNumber(transferFundsRequest.getSenderCardNumber());
+                        recipientAccount = accountRepository.findAccountByCardNumber(transferFundsRequest.getRecipientCardNumber());
 
+                        boolean transferSuccessful = AccountController.transferFunds(account, transferFundsRequest.getTransferAmount(), recipientAccount);
+
+                        account = accountRepository.findAccountByCardNumber(transferFundsRequest.getSenderCardNumber());
+
+                        TransferFundsResponse transferFundsResponse = new TransferFundsResponse(transferSuccessful, account.getBalance());
+                        out.println(TransferFundsResponse.toJSON(transferFundsResponse));
+                        }
                     break;
 
                 default:
                     break;
             }
         }
+        stop();
     }
 
     public void stop() throws IOException {

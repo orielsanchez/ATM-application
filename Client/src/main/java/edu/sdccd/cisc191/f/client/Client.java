@@ -44,6 +44,12 @@ public class Client {
         return WithdrawResponse.fromJSON(in.readLine());
     }
 
+    public TransferFundsResponse sendTransferFundsRequest(long senderCardNumber, double transferAmount, long recipientCardNumber) throws Exception {
+        out.println(TransferFundsRequest.toJSON(new TransferFundsRequest(RequestType.TRA, senderCardNumber, transferAmount, recipientCardNumber)));
+        return TransferFundsResponse.fromJSON(in.readLine());
+    }
+
+
     public void stopConnection() throws IOException {
         in.close();
         out.close();

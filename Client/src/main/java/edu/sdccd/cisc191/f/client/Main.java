@@ -1,6 +1,7 @@
 package edu.sdccd.cisc191.f.client;
 
 import edu.sdccd.cisc191.f.DepositResponse;
+import edu.sdccd.cisc191.f.TransferFundsResponse;
 import edu.sdccd.cisc191.f.WithdrawResponse;
 import edu.sdccd.cisc191.f.server.Account;
 import edu.sdccd.cisc191.f.AccountResponse;
@@ -176,13 +177,15 @@ public class Main extends Application {
 
         // Send deposit request
         depositButton.setOnAction(event -> {
-            try {
-                DepositResponse depositResponse = client.sendDepositRequest(account[0].getCardNumber(), Double.parseDouble(depositAmountField.getText()));
-                account[0] = new Account(depositResponse.getId(), depositResponse.getCardNumber(), depositResponse.getPIN(), depositResponse.getBalance());
-                currentBalanceField.setText(String.valueOf(account[0].getBalance()));
-                depositStage.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (!depositAmountField.getText().equals("")) {
+                try {
+                    DepositResponse depositResponse = client.sendDepositRequest(account[0].getCardNumber(), Double.parseDouble(depositAmountField.getText()));
+                    account[0] = new Account(depositResponse.getId(), depositResponse.getCardNumber(), depositResponse.getPIN(), depositResponse.getBalance());
+                    currentBalanceField.setText(String.valueOf(account[0].getBalance()));
+                    depositStage.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -228,7 +231,7 @@ public class Main extends Application {
         withdrawStage.setTitle("Withdraw");
         withdrawStage.setResizable(false);
 
-        // Show Withdaw Stage
+        // Show Withdraw Stage
         withdrawMenuButton.setOnAction(event -> {
             withdrawMenuCurrentBalanceField.setText(String.valueOf(account[0].getBalance()));
             withdrawStage.showAndWait();
@@ -236,21 +239,108 @@ public class Main extends Application {
 
         // Send withdraw request
         withdrawButton.setOnAction(event -> {
-            try {
-                WithdrawResponse withdrawResponse = client.sendWithdrawRequest(account[0].getCardNumber(), Double.parseDouble(withdrawAmountField.getText()));
-                account[0] = new Account(withdrawResponse.getId(), withdrawResponse.getCardNumber(), withdrawResponse.getPIN(), withdrawResponse.getBalance());
-                currentBalanceField.setText(String.valueOf(account[0].getBalance()));
-                withdrawStage.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (!withdrawAmountField.getText().equals("")) {
+                try {
+                    WithdrawResponse withdrawResponse = client.sendWithdrawRequest(account[0].getCardNumber(), Double.parseDouble(withdrawAmountField.getText()));
+                    account[0] = new Account(withdrawResponse.getId(), withdrawResponse.getCardNumber(), withdrawResponse.getPIN(), withdrawResponse.getBalance());
+                    currentBalanceField.setText(String.valueOf(account[0].getBalance()));
+                    withdrawStage.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        // Transfer Scene
+        Stage transferStage = new Stage();
+
+        VBox transferVBox = new VBox();
+        transferVBox.setAlignment(Pos.CENTER);
+        transferVBox.setPadding(new Insets(10));
+        transferVBox.setSpacing(10);
+
+        Label transferMenuTitle = new Label("TRANSFER");
+        transferMenuTitle.setFont(new Font("HELVETICA", 20));
+
+        GridPane transferMenuGridPane = new GridPane();
+        transferMenuGridPane.setPadding(new Insets(10));
+        transferMenuGridPane.setAlignment(Pos.CENTER);
+        transferMenuGridPane.setHgap(5);
+        transferMenuGridPane.setVgap(5);
+        transferMenuGridPane.setMinWidth(300);
+
+        Label transferMenuCurrentBalanceText = new Label("Current Balance: ");
+        Label transferMenuCurrentBalance = new Label();
+        Label transferText = new Label("How much would you like to transfer to recipient?");
+        RestrictiveTextField transferAmountField = new RestrictiveTextField();
+        transferAmountField.setRestrict("[0-9]");
+        transferAmountField.setMaxLength(10);
+        Label recipientText = new Label("Recipient's Card Number: ");
+        RestrictiveTextField recipientField = new RestrictiveTextField();
+        recipientField.setMaxLength(16);
+        recipientField.setRestrict("[0-9]");
+
+        Button transferButton = new Button("Transfer");
+        transferButton.setMaxWidth(Double.MAX_VALUE);
+        GridPane.setFillWidth(transferButton, true);
+
+        transferMenuGridPane.add(transferMenuCurrentBalanceText, 0, 0);
+        transferMenuGridPane.add(transferMenuCurrentBalance, 1, 0);
+        transferMenuGridPane.add(transferText, 0, 1);
+        transferMenuGridPane.add(transferAmountField, 1, 1);
+        transferMenuGridPane.add(recipientText, 0, 2);
+        transferMenuGridPane.add(recipientField, 1, 2);
+        transferMenuGridPane.add(transferButton, 1, 3);
+
+        transferVBox.getChildren().addAll(transferMenuTitle, transferMenuGridPane);
+        Scene transferScene = new Scene(transferVBox);
+        transferStage.setScene(transferScene);
+        transferStage.initModality(Modality.APPLICATION_MODAL);
+        transferStage.setTitle("Transfer");
+        transferStage.setResizable(false);
+
+        // Show Transfer Stage
+        transferFundsMenuButton.setOnAction(event -> {
+            transferMenuCurrentBalance.setText(String.valueOf(account[0].getBalance()));
+            transferStage.showAndWait();
+        });
+
+        // Send Transfer Request
+        transferButton.setOnAction(event -> {
+            if (!transferAmountField.getText().equals("") && !recipientField.getText().equals("")) {
+                try {
+                    TransferFundsResponse transferFundsResponse = client.sendTransferFundsRequest(
+                            account[0].getCardNumber(),
+                            Double.parseDouble(transferAmountField.getText()),
+                            Long.parseLong(recipientField.getText()));
+
+                    boolean transferSuccessful = transferFundsResponse.isTransferSuccessful();
+                    Alert alert;
+                    if (transferSuccessful) {
+                        alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setHeaderText("Transfer Successful!");
+                        String contentText = String.format("Transfer of %s to %s was successful!\nYour balance is now %s", transferAmountField.getText(), recipientField.getText(), transferFundsResponse.getBalance());
+                        account[0] = new Account(account[0].getID(), account[0].getCardNumber(), account[0].getPIN(), transferFundsResponse.getBalance());
+                        currentBalanceField.setText(String.valueOf(account[0].getBalance()));
+                        alert.setContentText(contentText);
+                    } else {
+                        alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setHeaderText("Transfer Failed");
+                        alert.setContentText("Transfer was unsuccessful :(");
+                    }
+                    alert.showAndWait();
+                    transferStage.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
 
         // Send a login request to server
         loginButton.setOnAction(event -> {
-            try {
-                if (!cardNumberField.getText().equals("") && !PINField.getText().equals("")) {
+            if (!cardNumberField.getText().equals("") && !PINField.getText().equals("")) {
+                try {
                     long cardNumber = Long.parseLong(cardNumberField.getText());
                     String PIN = PINField.getText();
                     System.out.println("login button pressed, send account request info: " + cardNumber + " " + PIN);
@@ -267,9 +357,9 @@ public class Main extends Application {
                         alert.setContentText("Please try again");
                         alert.showAndWait();
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         });
 
