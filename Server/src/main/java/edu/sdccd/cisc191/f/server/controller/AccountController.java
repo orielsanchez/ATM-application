@@ -13,7 +13,8 @@ public class AccountController {
 
 
     public static void updateAccount(Account account) {
-        Main.database.update(String.valueOf(account.getCardNumber()), account.getBalance());
+        accountRepository.save(account);
+        //Main.database.update(String.valueOf(account.getCardNumber()), account.getBalance());
     }
 
 

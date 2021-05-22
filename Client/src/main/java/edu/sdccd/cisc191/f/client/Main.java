@@ -1,5 +1,6 @@
 package edu.sdccd.cisc191.f.client;
 
+import edu.sdccd.cisc191.f.DepositResponse;
 import edu.sdccd.cisc191.f.server.Account;
 import edu.sdccd.cisc191.f.AccountResponse;
 import javafx.application.Application;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -123,6 +125,49 @@ public class Main extends Application {
         mainMenuVBox.getChildren().addAll(mainMenuTitleLabel, mainMenuGridPane);
         Scene mainMenuScene = new Scene(mainMenuVBox);
 
+        // Deposit Scene
+        Stage depositStage = new Stage();
+
+        VBox depositVBox = new VBox();
+        depositVBox.setAlignment(Pos.CENTER);
+        depositVBox.setPadding(new Insets(10));
+        depositVBox.setSpacing(10);
+
+        Label depositMenuTitle = new Label("DEPOSIT");
+        depositMenuTitle.setFont(new Font("Helvetica", 20));
+
+        GridPane depositMenuGridPane = new GridPane();
+        depositMenuGridPane.setPadding(new Insets(10));
+        depositMenuGridPane.setAlignment(Pos.CENTER);
+        depositMenuGridPane.setVgap(5);
+        depositMenuGridPane.setHgap(5);
+        depositMenuGridPane.setMinWidth(200);
+
+        Label currentBalance = new Label("Current Balance: ");
+        Label depositMenuCurrentBalanceField = new Label();
+        Label depositTextLabel = new Label("How much would you like to deposit?");
+        RestrictiveTextField depositAmountField = new RestrictiveTextField();
+        depositAmountField.setRestrict("[0-9]");
+        depositAmountField.setMaxLength(10);
+
+        Button depositButton = new Button("Deposit");
+        depositButton.setMaxWidth(Double.MAX_VALUE);
+        GridPane.setFillWidth(depositButton, true);
+
+        depositMenuGridPane.add(currentBalance, 0, 0);
+        depositMenuGridPane.add(depositMenuCurrentBalanceField, 1, 0);
+        depositMenuGridPane.add(depositTextLabel, 0, 1);
+        depositMenuGridPane.add(depositAmountField, 1, 1);
+        depositMenuGridPane.add(depositButton, 1, 2);
+
+        depositVBox.getChildren().addAll(depositMenuTitle, depositMenuGridPane);
+        Scene depositScene = new Scene(depositVBox);
+        depositStage.setScene(depositScene);
+        depositStage.initModality(Modality.APPLICATION_MODAL);
+        depositStage.setTitle("Deposit");
+        depositStage.setResizable(false);
+
+
         // Send a login request to server
         loginButton.setOnAction(event -> {
             try {
@@ -149,6 +194,23 @@ public class Main extends Application {
             }
         });
 
+        // Show Deposit Stage
+        depositMenuButton.setOnAction(event -> {
+            depositMenuCurrentBalanceField.setText(String.valueOf(account[0].getBalance()));
+            depositStage.showAndWait();
+        });
+
+        // Send deposit request
+        depositButton.setOnAction(event -> {
+            try {
+                DepositResponse depositResponse = client.sendDepositRequest(account[0].getCardNumber(), Double.parseDouble(depositAmountField.getText()));
+                account[0] = new Account(depositResponse.getId(), depositResponse.getCardNumber(), depositResponse.getPIN(), depositResponse.getBalance());
+                currentBalanceField.setText(String.valueOf(account[0].getBalance()));
+                depositStage.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         // Send a blank request to server to create an account
         createAccountButton.setOnAction(event -> {
             try {

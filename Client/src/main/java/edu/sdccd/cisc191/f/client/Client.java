@@ -1,7 +1,6 @@
 package edu.sdccd.cisc191.f.client;
 
-import edu.sdccd.cisc191.f.AccountRequest;
-import edu.sdccd.cisc191.f.AccountResponse;
+import edu.sdccd.cisc191.f.*;
 
 import java.net.*;
 import java.io.*;
@@ -31,8 +30,13 @@ public class Client {
     }
 
     public AccountResponse sendAccountRequest(long cardNumber, String PIN) throws Exception {
-        out.println(AccountRequest.toJSON(new AccountRequest(cardNumber, PIN)));
+        out.println(AccountRequest.toJSON(new AccountRequest(RequestType.ACC, cardNumber, PIN)));
         return AccountResponse.fromJSON(in.readLine());
+    }
+
+    public DepositResponse sendDepositRequest(long cardNumber, double depositAmount) throws Exception {
+        out.println(DepositRequest.toJSON(new DepositRequest(RequestType.DEP, cardNumber, depositAmount)));
+        return DepositResponse.fromJSON(in.readLine());
     }
 
     public void stopConnection() throws IOException {

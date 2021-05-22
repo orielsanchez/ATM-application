@@ -1,11 +1,11 @@
 package edu.sdccd.cisc191.f.server;
 
-import edu.sdccd.cisc191.f.AccountRequest;
-import edu.sdccd.cisc191.f.AccountResponse;
+import edu.sdccd.cisc191.f.*;
 import edu.sdccd.cisc191.f.server.controller.AccountController;
 
 import java.net.*;
 import java.io.*;
+import java.util.Objects;
 
 /**
  * This program is a server that takes connection requests on
@@ -34,46 +34,79 @@ public class Server {
 
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
-            AccountRequest request = AccountRequest.fromJSON(inputLine);
-
-            long cardNumber = request.getCardNumber();
-            String PIN = request.getPIN();
-            System.out.println("accountrequest info received: " + cardNumber + " " + PIN);
             Account account;
+            Account transfereeAccount;
+            RequestType requestType = RequestTypeParser.parseRequestType(inputLine);
+            System.out.println(requestType);
 
-            if (cardNumber == 0L && PIN.equals("0")) {
-                account = AccountUtils.createAccount();
-                AccountController.addAccountToDatabase(account);
-            } else if (String.valueOf(cardNumber).length() != 16) {
-                account = null;
-            } else {
-                String numForCheck = String.valueOf(cardNumber).substring(0, 15);
-                String checkNum = numForCheck + AccountUtils.getLuhnNum(numForCheck);
+            switch (requestType) {
+                case ACC:
+                    AccountRequest accountRequest = AccountRequest.fromJSON(inputLine);
+                    long cardNumber = accountRequest.getCardNumber();
+                    String PIN = accountRequest.getPIN();
+                    System.out.println("account request info received: " + cardNumber + " " + PIN);
 
-                if (!checkNum.equals(String.valueOf(cardNumber))) {
-                    account = null;
-                } else {
+                    if (cardNumber == 0L && PIN.equals("0")) {
+                        account = AccountUtils.createAccount();
+                        AccountController.addAccountToDatabase(account);
+                    } else if (String.valueOf(cardNumber).length() != 16) {
+                        account = null;
+                    } else {
+                        String numForCheck = String.valueOf(cardNumber).substring(0, 15);
+                        String checkNum = numForCheck + AccountUtils.getLuhnNum(numForCheck);
 
-                    account = accountRepository.findAccountByCardNumber(cardNumber);
-                    // account = Main.database.getAccount(cardNumber);
-                }
+                        if (!checkNum.equals(String.valueOf(cardNumber))) {
+                            account = null;
+                        } else {
 
-                if (account == null || !PIN.equals(account.getPIN())) {
-                    System.out.println("Wrong card number or PIN!\n");
-                    account = null;
-                } else {
-                    System.out.println("Successful login!");
-                }
-            }
+                            account = accountRepository.findAccountByCardNumber(cardNumber);
+                            // account = Main.database.getAccount(cardNumber);
+                        }
 
-            if (account != null) {
-                AccountResponse response = new AccountResponse(account.getID(),
-                        account.getCardNumber(),
-                        account.getPIN(),
-                        account.getBalance());
-                out.println(AccountResponse.toJSON(response));
-            } else {
-                out.println(AccountResponse.toJSON(new AccountResponse(-1, -1L, "-1", -1)));
+                        if (account == null || !PIN.equals(account.getPIN())) {
+                            System.out.println("Wrong card number or PIN!\n");
+                            account = null;
+                        } else {
+                            System.out.println("Successful login!");
+                        }
+                    }
+
+                    if (account != null) {
+                        AccountResponse accountResponse = new AccountResponse(account.getID(),
+                                account.getCardNumber(),
+                                account.getPIN(),
+                                account.getBalance());
+                        out.println(AccountResponse.toJSON(accountResponse));
+                    } else {
+                        out.println(AccountResponse.toJSON(new AccountResponse(-1, -1L, "-1", -1)));
+                    }
+
+                    break;
+                case DEP:
+                    DepositRequest depositRequest = DepositRequest.fromJSON(inputLine);
+                    if (depositRequest != null) {
+                        account = accountRepository.findAccountByCardNumber(depositRequest.getCardNumber());
+                        boolean depositSuccessful = account.deposit(depositRequest.getDepositAmount());
+                        if (depositSuccessful) {
+                            AccountController.updateAccount(account);
+                            DepositResponse depositResponse = new DepositResponse(account.getID(), account.getCardNumber(), account.getPIN()
+                            , account.getBalance());
+                            out.println(DepositResponse.toJSON(depositResponse));
+                        } else {
+                            System.out.println("Deposit unsuccessful");
+                        }
+                    }
+                    break;
+
+                case WIT:
+                    break;
+
+                case TRA:
+
+                    break;
+
+                default:
+                    break;
             }
         }
     }

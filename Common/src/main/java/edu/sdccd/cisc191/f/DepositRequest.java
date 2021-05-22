@@ -3,28 +3,27 @@ package edu.sdccd.cisc191.f;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class AccountRequest {
+public class DepositRequest {
     private RequestType requestType;
     private long cardNumber;
-    private String PIN;
+    private double depositAmount;
 
     @JsonIgnore
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    public static String toJSON(AccountRequest accountRequest) throws Exception {
-        return objectMapper.writeValueAsString(accountRequest);
-    }
-    public static AccountRequest fromJSON(String input) throws Exception {
-        return objectMapper.readValue(input, AccountRequest.class);
+    public static String toJSON(DepositRequest depositRequest) throws Exception {
+        return objectMapper.writeValueAsString(depositRequest);
     }
 
-    protected AccountRequest() {
-
+    public static DepositRequest fromJSON(String input) throws Exception {
+        return objectMapper.readValue(input, DepositRequest.class);
     }
 
-    public AccountRequest(RequestType requestType, long cardNumber, String PIN) {
+    protected DepositRequest(){}
+
+    public DepositRequest(RequestType requestType, long cardNumber, double depositAmount) {
         this.requestType = requestType;
         this.cardNumber = cardNumber;
-        this.PIN = PIN;
+        this.depositAmount = depositAmount;
     }
 
     public RequestType getRequestType() {
@@ -43,11 +42,11 @@ public class AccountRequest {
         this.cardNumber = cardNumber;
     }
 
-    public String getPIN() {
-        return PIN;
+    public double getDepositAmount() {
+        return depositAmount;
     }
 
-    public void setPIN(String PIN) {
-        this.PIN = PIN;
+    public void setDepositAmount(double depositAmount) {
+        this.depositAmount = depositAmount;
     }
 }
