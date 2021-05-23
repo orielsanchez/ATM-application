@@ -26,16 +26,4 @@ public class Main {
                 }
             };
         }
-
-        @Bean
-        public CommandLineRunner startDatabase() {
-        return args -> {
-
-        // Setup Database
-        String filename = "main.db";
-        Database.setDatabaseFileName(filename);
-        Database.createNewTable(filename);
-
-        };
-        }
     }
