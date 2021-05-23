@@ -1,8 +1,10 @@
 package edu.sdccd.cisc191.f.server.account;
 
 import edu.sdccd.cisc191.f.Account;
+import org.springframework.stereotype.Service;
 
-public class AccountController {
+@Service
+public class AccountService {
 
     private static AccountRepository accountRepository;
 
@@ -41,6 +43,6 @@ public class AccountController {
     }
 
     public static void setAccountRepository(AccountRepository accountRepository) {
-        AccountController.accountRepository = accountRepository;
+        AccountService.accountRepository = accountRepository;
     }
 }

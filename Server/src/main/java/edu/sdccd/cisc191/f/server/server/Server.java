@@ -1,7 +1,7 @@
 package edu.sdccd.cisc191.f.server.server;
 
 import edu.sdccd.cisc191.f.*;
-import edu.sdccd.cisc191.f.server.account.AccountController;
+import edu.sdccd.cisc191.f.server.account.AccountService;
 import edu.sdccd.cisc191.f.server.account.AccountRepository;
 import edu.sdccd.cisc191.f.server.account.AccountUtils;
 
@@ -30,7 +30,7 @@ public class Server {
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        AccountController.setAccountRepository(accountRepository);
+        AccountService.setAccountRepository(accountRepository);
 
 
         String inputLine;
@@ -49,7 +49,7 @@ public class Server {
 
                     if (cardNumber == 0L && PIN.equals("0")) {
                         account = AccountUtils.createAccount();
-                        AccountController.addAccountToDatabase(account);
+                        AccountService.addAccountToDatabase(account);
                     } else if (String.valueOf(cardNumber).length() != 16) {
                         account = null;
                     } else {
@@ -89,7 +89,7 @@ public class Server {
                         account = accountRepository.findAccountByCardNumber(depositRequest.getCardNumber());
                         boolean depositSuccessful = account.deposit(depositRequest.getDepositAmount());
                         if (depositSuccessful) {
-                            AccountController.updateAccount(account);
+                            AccountService.updateAccount(account);
                             DepositResponse depositResponse = new DepositResponse(account.getID(), account.getCardNumber(), account.getPIN()
                             , account.getBalance());
                             out.println(DepositResponse.toJSON(depositResponse));
@@ -105,7 +105,7 @@ public class Server {
                         account = accountRepository.findAccountByCardNumber(withdrawRequest.getCardNumber());
                         boolean withdrawSuccessful = account.withdraw(withdrawRequest.getWithdrawAmount());
                         if (withdrawSuccessful) {
-                            AccountController.updateAccount(account);
+                            AccountService.updateAccount(account);
                             WithdrawResponse withdrawResponse = new WithdrawResponse(account.getID(), account.getCardNumber(), account.getPIN(), account.getBalance());
                             out.println(WithdrawResponse.toJSON(withdrawResponse));
                         } else {
@@ -122,7 +122,7 @@ public class Server {
                         account = accountRepository.findAccountByCardNumber(transferFundsRequest.getSenderCardNumber());
                         recipientAccount = accountRepository.findAccountByCardNumber(transferFundsRequest.getRecipientCardNumber());
 
-                        boolean transferSuccessful = AccountController.transferFunds(account, transferFundsRequest.getTransferAmount(), recipientAccount);
+                        boolean transferSuccessful = AccountService.transferFunds(account, transferFundsRequest.getTransferAmount(), recipientAccount);
 
                         account = accountRepository.findAccountByCardNumber(transferFundsRequest.getSenderCardNumber());
 
