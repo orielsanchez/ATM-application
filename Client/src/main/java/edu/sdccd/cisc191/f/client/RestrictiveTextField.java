@@ -13,7 +13,6 @@ import javafx.scene.control.TextField;
  * The restriction can either be a maximal number of characters which the user is allowed to input
  * or a regular expression class, which contains allowed characters.
  * </p>
- * <p/>
  * <b>Sample, which restricts the input to maximal 10 numeric characters</b>:
  * <pre>
  * {@code
@@ -26,10 +25,15 @@ import javafx.scene.control.TextField;
  * @author Christian Schudt
  */
 public class RestrictiveTextField extends TextField {
-
+    /**
+     *
+     */
     private final IntegerProperty maxLength = new SimpleIntegerProperty(this, "maxLength", -1);
     private final StringProperty restrict = new SimpleStringProperty(this, "restrict");
 
+    /**
+     * The constructor for the RestrictiveTextField.
+     */
     public RestrictiveTextField() {
 
         textProperty().addListener(new ChangeListener<>() {

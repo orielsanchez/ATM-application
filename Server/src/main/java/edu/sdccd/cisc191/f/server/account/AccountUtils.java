@@ -1,4 +1,6 @@
-package edu.sdccd.cisc191.f.server;
+package edu.sdccd.cisc191.f.server.account;
+
+import edu.sdccd.cisc191.f.Account;
 
 import java.util.Random;
 

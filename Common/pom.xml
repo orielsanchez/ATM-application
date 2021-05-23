@@ -9,18 +9,15 @@
         <version>1.0.0</version>
     </parent>
     <artifactId>Common</artifactId>
+    <properties>
+        <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.11.1</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.sdccd.cisc191.f</groupId>
-            <artifactId>Server</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

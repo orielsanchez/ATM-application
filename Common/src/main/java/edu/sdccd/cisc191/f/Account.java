@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191.f.server;
+package edu.sdccd.cisc191.f;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

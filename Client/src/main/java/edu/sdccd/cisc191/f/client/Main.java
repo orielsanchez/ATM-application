@@ -1,10 +1,6 @@
 package edu.sdccd.cisc191.f.client;
 
-import edu.sdccd.cisc191.f.DepositResponse;
-import edu.sdccd.cisc191.f.TransferFundsResponse;
-import edu.sdccd.cisc191.f.WithdrawResponse;
-import edu.sdccd.cisc191.f.server.Account;
-import edu.sdccd.cisc191.f.AccountResponse;
+import edu.sdccd.cisc191.f.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +14,11 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Generates a GUI that is used to interact with the ATM Server.
+ *
+ * @author Oriel Sanchez
+ */
 public class Main extends Application {
 
     @Override
