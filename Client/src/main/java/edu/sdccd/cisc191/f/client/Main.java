@@ -36,7 +36,7 @@ public class Main extends Application {
         loginVBox.setAlignment(Pos.CENTER);
 
         // Title
-        Label ATMLabel = new Label("Welcome to the Bank of Group F");
+        Label ATMLabel = new Label("Welcome to the Falcon Credit Union ATM");
         ATMLabel.setFont(new Font("Helvetica", 20));
 
         // Setup GridPane
@@ -76,7 +76,7 @@ public class Main extends Application {
 
         // Setup primaryStage
         primaryStage.setScene(loginScene);
-        primaryStage.setTitle("Bank of Group F");
+        primaryStage.setTitle("Falcon Credit Union");
         primaryStage.setResizable(false);
         primaryStage.show();
 
@@ -87,7 +87,7 @@ public class Main extends Application {
         mainMenuVBox.setPadding(new Insets(10));
         mainMenuVBox.setSpacing(10);
 
-        Label mainMenuTitleLabel = new Label("Welcome to the Bank of Group F");
+        Label mainMenuTitleLabel = new Label("Welcome to the Falcon Credit Union ATM");
 
         GridPane mainMenuGridPane = new GridPane();
         mainMenuGridPane.setPadding(new Insets(10));
