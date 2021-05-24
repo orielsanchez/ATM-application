@@ -1,19 +1,21 @@
 # CISC191-SPRING2021-F
 
 ## ATM Application
-A CLI ATM application that allows you to create accounts, deposit, withdraw, and transfer funds to different accounts in the database.
+An ATM application that allows you to create accounts, deposit, withdraw, and transfer funds to different accounts in the database.
 
 ## Prerequisites
 1. Maven
 2. Git
-3. Liberica JDK 15
+3. Liberica JDK 16
+4. JavaFX 16
+
 ## Cloning
    ```sh
    git clone https://github.com/MiramarCISC/CISC191-SPRING2021-F.git
    ```
 ## Building
    ```sh
-   mvn clean install
+   mvn clean package spring-boot:repackage
    ```
 
 ## Running
