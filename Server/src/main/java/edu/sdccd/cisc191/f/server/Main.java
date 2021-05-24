@@ -24,7 +24,6 @@ public class Main {
                 Server server = new Server();
                 try {
                     server.start(4444, accountRepository);
-                    server.stop();
                 } catch(Exception e) {
                     e.printStackTrace();
                 }

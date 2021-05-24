@@ -11,7 +11,7 @@ import javax.persistence.Id;
  * @author Oriel Sanchez
  */
 
-@Entity(name = "Account")
+@Entity
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
