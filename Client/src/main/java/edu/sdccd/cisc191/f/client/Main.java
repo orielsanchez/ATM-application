@@ -14,6 +14,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 /**
  * Generates a GUI that is used to interact with the ATM Server,
  * sending requests through the client.
@@ -401,6 +403,14 @@ public class Main extends Application {
         logOutMenuButton.setOnAction(event -> {
             account[0] = null;
             primaryStage.setScene(loginScene);
+        });
+
+        primaryStage.setOnCloseRequest(event -> {
+            try {
+                client.stopConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 }

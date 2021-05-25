@@ -35,12 +35,12 @@ public class Server {
      * @throws Exception
      */
     public void start(int port, AccountRepository accountRepository) throws Exception {
+        System.out.println("Server started...");
         serverSocket = new ServerSocket(port);
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         AccountService.setAccountRepository(accountRepository);
-        System.out.println("Server started...");
 
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
@@ -147,7 +147,6 @@ public class Server {
                     break;
             }
         }
-        stop();
     }
 
     /**
