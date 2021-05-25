@@ -18,7 +18,7 @@ public class AccountResponse {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
-     * Creates the accountRequest object into json format to send within socket.
+     * Creates the accountResponse object into json format to send within socket.
      *
      * @param  accountResponse accountResponse
      * @return The accountResponse as a string.
@@ -45,7 +45,7 @@ public class AccountResponse {
      * Creates the accountResponse object that accepts 4 parameters.
      * This constructor is used to initialize the accountResponse object in order to respond to account data requests.
      *
-     * @param id          one of four account request types: Account, Deposit, Withdraw, Transfer
+     * @param id          number to identify within database
      * @param cardNumber  number that acts as a bank account number
      * @param PIN         secure 4 digit pin
      * @param balance     amount of money within account
