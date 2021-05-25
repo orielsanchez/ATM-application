@@ -8,6 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * The main class starts the server and runs this class as the SpringBoot Application.
+ *
+ * @author Oriel Sanchez
+ */
 @SpringBootApplication
 @EntityScan("edu.sdccd.cisc191.f")
 public class Main {
