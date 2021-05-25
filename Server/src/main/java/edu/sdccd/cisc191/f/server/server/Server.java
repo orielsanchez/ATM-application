@@ -17,6 +17,9 @@ import java.io.*;
  * for example).  Note that this server processes each connection
  * as it is received, rather than creating a separate thread
  * to process the connection.
+ *
+ * @author Andrew Huang
+ * @author Oriel Sanchez
  */
 public class Server {
     private ServerSocket serverSocket;
@@ -24,23 +27,33 @@ public class Server {
     private PrintWriter out;
     private BufferedReader in;
 
+    /**
+     * Starts the server by opening sockets, I/O streams and setting up the AccountRepository.
+     *
+     * @param port the port number
+     * @param accountRepository the AccountRepository object
+     * @throws Exception
+     */
     public void start(int port, AccountRepository accountRepository) throws Exception {
-        System.out.println("Server started...");
         serverSocket = new ServerSocket(port);
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         AccountService.setAccountRepository(accountRepository);
-
+        System.out.println("Server started...");
 
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
+            // Variables
             Account account;
             Account recipientAccount;
-            RequestType requestType = RequestTypeParser.parseRequestType(inputLine);
-            System.out.println(requestType);
 
+            // Reads the RequestType
+            RequestType requestType = RequestTypeParser.parseRequestType(inputLine);
+
+            // Determines what the do based on the requestType
             switch (requestType) {
+                // Sends an AccountResponse object to the output stream
                 case ACC:
                     AccountRequest accountRequest = AccountRequest.fromJSON(inputLine);
                     long cardNumber = accountRequest.getCardNumber();
@@ -61,7 +74,6 @@ public class Server {
                         } else {
 
                             account = accountRepository.findAccountByCardNumber(cardNumber);
-                            // account = Main.database.getAccount(cardNumber);
                         }
 
                         if (account == null || !PIN.equals(account.getPIN())) {
@@ -81,8 +93,8 @@ public class Server {
                     } else {
                         out.println(AccountResponse.toJSON(new AccountResponse(-1, -1L, "-1", -1)));
                     }
-
                     break;
+                // Sends a DepositResponse object to the output stream
                 case DEP:
                     DepositRequest depositRequest = DepositRequest.fromJSON(inputLine);
                     if (depositRequest != null) {
@@ -98,7 +110,7 @@ public class Server {
                         }
                     }
                     break;
-
+                // Sends a WithdrawResponse object to the output stream
                 case WIT:
                     WithdrawRequest withdrawRequest = WithdrawRequest.fromJSON(inputLine);
                     if (withdrawRequest != null) {
@@ -115,7 +127,7 @@ public class Server {
                         }
                     }
                     break;
-
+                // Sends a TransferFundsResponse object to the output stream
                 case TRA:
                     TransferFundsRequest transferFundsRequest = TransferFundsRequest.fromJSON(inputLine);
                     if (transferFundsRequest != null) {
@@ -138,6 +150,10 @@ public class Server {
         stop();
     }
 
+    /**
+     * Stops the Server by closing the I/O streams and client/server sockets
+     * @throws IOException Signals that an I/O exception of some sort has occurred.
+     */
     public void stop() throws IOException {
         in.close();
         out.close();

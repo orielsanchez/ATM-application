@@ -16,16 +16,23 @@ import java.util.Random;
 
 public class AccountUtils {
 
+    // Creates an object of AccountUtils
     private static final AccountUtils accountUtils = new AccountUtils();
 
+    // makes the constructor private to prevent instantiation
     private AccountUtils() {
-
     }
 
+    /**
+     * Gets the only object available
+     *
+     * @return accountUtils instance
+     */
     public static AccountUtils getInstance() {
         return accountUtils;
     }
 
+    // generates a random 4 digit PIN
     protected static String generatePIN() {
         Random random = new Random();
         int pin = random.nextInt(10000);
@@ -37,6 +44,11 @@ public class AccountUtils {
         return "0".repeat(Math.max(0, 4 - temp.length())) + temp;
     }
 
+    /**
+     * Creates a new, empty account
+     *
+     * @return a new account object
+     */
     public static Account createAccount() {
         long cardNumber = Long.parseLong(generateNumber());
         String PIN = generatePIN();
@@ -44,12 +56,19 @@ public class AccountUtils {
     }
 
 
+    // Generates a random 16-digit number (as a string) that is valid with the Luhn Algorithm
     protected static String generateNumber() {
         Random random = new Random();
         String num = "400000" + (random.nextInt(899999999) + 100000000);
         return num + getLuhnNum(num);
     }
 
+    /**
+     * Uses the Luhn Algorithm to generate a checksum digit
+     *
+     * @param numForCheck the number we want to generate the checksum for
+     * @return A valid card number as a string
+     */
     public static String getLuhnNum(String numForCheck) {
         numForCheck += "0";
         int oddSum = 0;
