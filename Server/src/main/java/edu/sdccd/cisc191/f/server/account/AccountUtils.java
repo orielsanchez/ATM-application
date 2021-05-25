@@ -10,6 +10,8 @@ import java.util.Random;
  * which is used to check if a card number is valid via a checksum.
  *
  * This class implements the Singleton design pattern.
+ *
+ * @author Oriel Sanchez
  */
 
 public class AccountUtils {

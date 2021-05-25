@@ -4,6 +4,9 @@ import edu.sdccd.cisc191.f.Account;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * This interface is used as a repository of the accounts.
+ */
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {
 
