@@ -168,7 +168,7 @@
         <repository>
             <id>cisc191</id>
             <name>CISC191 Maven Repo</name>
-            <url>https://maven.pkg.github.com/MiramarCISC/CISC191-SPRING2020-A</url>
+            <url>https://maven.pkg.github.com/MiramarCISC/CISC191-SPRING2020-F</url>
         </repository>
     </distributionManagement>
 </project>
