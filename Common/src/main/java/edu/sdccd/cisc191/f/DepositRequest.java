@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * his class holds the structure for starting the deposit requests within the socket.
+ * This class holds the structure for starting the deposit requests within the socket.
  *
  * @author Oriel Sanchez
  */
