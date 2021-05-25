@@ -15,7 +15,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Generates a GUI that is used to interact with the ATM Server.
+ * Generates a GUI that is used to interact with the ATM Server,
+ * sending requests through the client.
  *
  * @author Oriel Sanchez
  */
@@ -35,11 +36,11 @@ public class Main extends Application {
         loginVBox.setSpacing(10);
         loginVBox.setAlignment(Pos.CENTER);
 
-        // Title
+        // Login Title
         Label ATMLabel = new Label("Welcome to the Falcon Credit Union ATM");
         ATMLabel.setFont(new Font("Helvetica", 20));
 
-        // Setup GridPane
+        // Setup Login GridPane
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.TOP_CENTER);
         gridPane.setPadding(new Insets(10));
@@ -48,7 +49,7 @@ public class Main extends Application {
         gridPane.setHgap(5);
 
 
-        // Labels, Buttons, and Text Fields
+        // Login Labels, Buttons, and Text Fields
         Label cardNumberLabel = new Label("Card Number: ");
         gridPane.add(cardNumberLabel, 0, 0);
         RestrictiveTextField cardNumberField = new RestrictiveTextField();
@@ -74,21 +75,23 @@ public class Main extends Application {
         loginVBox.getChildren().addAll(ATMLabel, gridPane);
         Scene loginScene = new Scene(loginVBox);
 
-        // Setup primaryStage
+        // Setup login Stage
         primaryStage.setScene(loginScene);
         primaryStage.setTitle("Falcon Credit Union");
         primaryStage.setResizable(false);
         primaryStage.show();
 
 
-        // Main Menu Scene
+        // Main Menu Window
         VBox mainMenuVBox = new VBox();
         mainMenuVBox.setAlignment(Pos.CENTER);
         mainMenuVBox.setPadding(new Insets(10));
         mainMenuVBox.setSpacing(10);
 
+        // Main Menu Title
         Label mainMenuTitleLabel = new Label("Welcome to the Falcon Credit Union ATM");
 
+        // Main Menu GridPane
         GridPane mainMenuGridPane = new GridPane();
         mainMenuGridPane.setPadding(new Insets(10));
         mainMenuGridPane.setAlignment(Pos.CENTER);
@@ -96,6 +99,7 @@ public class Main extends Application {
         mainMenuGridPane.setHgap(5);
         mainMenuGridPane.setMinWidth(300);
 
+        // Main Menu labels, buttons, and fields
         Label activeCardNumberLabel = new Label("Card Number: ");
         Label activeCardNumberField = new Label();
         mainMenuGridPane.add(activeCardNumberLabel, 0, 0);
@@ -125,10 +129,12 @@ public class Main extends Application {
         mainMenuGridPane.add(transferFundsMenuButton, 0, 3);
         mainMenuGridPane.add(logOutMenuButton, 1, 3);
 
+
+        // Setup Main Menu scene
         mainMenuVBox.getChildren().addAll(mainMenuTitleLabel, mainMenuGridPane);
         Scene mainMenuScene = new Scene(mainMenuVBox);
 
-        // Deposit Scene
+        // Deposit Window
         Stage depositStage = new Stage();
 
         VBox depositVBox = new VBox();
@@ -136,9 +142,12 @@ public class Main extends Application {
         depositVBox.setPadding(new Insets(10));
         depositVBox.setSpacing(10);
 
+        // Deposit title
         Label depositMenuTitle = new Label("DEPOSIT");
         depositMenuTitle.setFont(new Font("Helvetica", 20));
 
+
+        // Deposit GridPane
         GridPane depositMenuGridPane = new GridPane();
         depositMenuGridPane.setPadding(new Insets(10));
         depositMenuGridPane.setAlignment(Pos.CENTER);
@@ -146,6 +155,7 @@ public class Main extends Application {
         depositMenuGridPane.setHgap(5);
         depositMenuGridPane.setMinWidth(200);
 
+        // Deposit Menu labels, buttons, and fields
         Label currentBalance = new Label("Current Balance: ");
         Label depositMenuCurrentBalanceField = new Label();
         Label depositTextLabel = new Label("How much would you like to deposit?");
@@ -163,6 +173,7 @@ public class Main extends Application {
         depositMenuGridPane.add(depositAmountField, 1, 1);
         depositMenuGridPane.add(depositButton, 1, 2);
 
+        // Setup Deposit Scene
         depositVBox.getChildren().addAll(depositMenuTitle, depositMenuGridPane);
         Scene depositScene = new Scene(depositVBox);
         depositStage.setScene(depositScene);
@@ -176,7 +187,7 @@ public class Main extends Application {
             depositStage.showAndWait();
         });
 
-        // Send deposit request
+        // Send Deposit Request
         depositButton.setOnAction(event -> {
             if (!depositAmountField.getText().equals("")) {
                 try {
@@ -190,7 +201,7 @@ public class Main extends Application {
             }
         });
 
-        // Withdraw Scene
+        // Withdraw Window
         Stage withdrawStage = new Stage();
 
         VBox withdrawVBox = new VBox();
@@ -198,9 +209,11 @@ public class Main extends Application {
         withdrawVBox.setPadding(new Insets(10));
         withdrawVBox.setSpacing(10);
 
+        // Withdraw Menu title
         Label withdrawMenuTitle = new Label("WITHDRAW");
         withdrawMenuTitle.setFont(new Font("Helvetica", 20));
 
+        // Withdraw Menu GridPane
         GridPane withdrawMenuGridPane = new GridPane();
         withdrawMenuGridPane.setPadding(new Insets(10));
         withdrawMenuGridPane.setAlignment(Pos.CENTER);
@@ -208,6 +221,7 @@ public class Main extends Application {
         withdrawMenuGridPane.setHgap(5);
         withdrawMenuGridPane.setMinWidth(200);
 
+        // Withdraw Menu labels, buttons, and fields
         Label withdrawMenuCurrentBalance = new Label("Current Balance: ");
         Label withdrawMenuCurrentBalanceField = new Label();
         Label withdrawTextLabel = new Label("How much would you like to withdraw?");
@@ -225,6 +239,7 @@ public class Main extends Application {
         withdrawMenuGridPane.add(withdrawAmountField, 1, 1);
         withdrawMenuGridPane.add(withdrawButton, 1, 2);
 
+        // Setup Withdraw Menu Scene
         withdrawVBox.getChildren().addAll(withdrawMenuTitle, withdrawMenuGridPane);
         Scene withdrawScene = new Scene(withdrawVBox);
         withdrawStage.setScene(withdrawScene);
@@ -238,7 +253,7 @@ public class Main extends Application {
             withdrawStage.showAndWait();
         });
 
-        // Send withdraw request
+        // Send Withdraw Request
         withdrawButton.setOnAction(event -> {
             if (!withdrawAmountField.getText().equals("")) {
                 try {
@@ -252,7 +267,7 @@ public class Main extends Application {
             }
         });
 
-        // Transfer Scene
+        // Transfer Window
         Stage transferStage = new Stage();
 
         VBox transferVBox = new VBox();
@@ -260,9 +275,12 @@ public class Main extends Application {
         transferVBox.setPadding(new Insets(10));
         transferVBox.setSpacing(10);
 
+        // Transfer title
         Label transferMenuTitle = new Label("TRANSFER");
         transferMenuTitle.setFont(new Font("HELVETICA", 20));
 
+
+        // Transfer Menu GridPane
         GridPane transferMenuGridPane = new GridPane();
         transferMenuGridPane.setPadding(new Insets(10));
         transferMenuGridPane.setAlignment(Pos.CENTER);
@@ -270,6 +288,7 @@ public class Main extends Application {
         transferMenuGridPane.setVgap(5);
         transferMenuGridPane.setMinWidth(300);
 
+        // Transfer Menu labels, buttons, and fields
         Label transferMenuCurrentBalanceText = new Label("Current Balance: ");
         Label transferMenuCurrentBalance = new Label();
         Label transferText = new Label("How much would you like to transfer to recipient?");
@@ -293,6 +312,7 @@ public class Main extends Application {
         transferMenuGridPane.add(recipientField, 1, 2);
         transferMenuGridPane.add(transferButton, 1, 3);
 
+        // Setup Transfer Menu Scene
         transferVBox.getChildren().addAll(transferMenuTitle, transferMenuGridPane);
         Scene transferScene = new Scene(transferVBox);
         transferStage.setScene(transferScene);
@@ -382,7 +402,5 @@ public class Main extends Application {
             account[0] = null;
             primaryStage.setScene(loginScene);
         });
-
-
     }
 }

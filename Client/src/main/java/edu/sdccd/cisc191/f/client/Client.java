@@ -16,6 +16,9 @@ import java.io.*;
  * standard output.  This program is meant to be used with
  * the server program, DateServer, which sends the current
  * date and time on the computer where the server is running.
+ *
+ * @author Andrew Huang
+ * @author Oriel Sanchez
  */
 
 public class Client {
