@@ -19,6 +19,7 @@ import java.io.*;
  *
  * @author Andrew Huang
  * @author Oriel Sanchez
+ * @author Noah Widders
  */
 
 public class Client {
@@ -31,7 +32,7 @@ public class Client {
      *
      * @param ip the host name
      * @param port the port number
-     * @throws IOException
+     * @throws IOException an I/O exception of some sorts has occurred
      */
     public void startConnection(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
@@ -45,7 +46,7 @@ public class Client {
      * @param cardNumber the 16-digit card number
      * @param PIN the account PIN
      * @return an AccountResponse object
-     * @throws Exception
+     * @throws Exception an exception of some sorts has occurred
      */
     public AccountResponse sendAccountRequest(long cardNumber, String PIN) throws Exception {
         out.println(AccountRequest.toJSON(new AccountRequest(RequestType.ACC, cardNumber, PIN)));
@@ -58,7 +59,7 @@ public class Client {
      * @param cardNumber the 16-digit card number
      * @param depositAmount the deposit amount
      * @return A DepositResponse object
-     * @throws Exception
+     * @throws Exception an exception of some sorts has occurred
      */
     public DepositResponse sendDepositRequest(long cardNumber, double depositAmount) throws Exception {
         out.println(DepositRequest.toJSON(new DepositRequest(RequestType.DEP, cardNumber, depositAmount)));
@@ -71,7 +72,7 @@ public class Client {
      * @param cardNumber the 16-digit card number
      * @param withdrawAmount the withdraw amount
      * @return A WithdrawResponse object
-     * @throws Exception
+     * @throws Exception an exception of some sorts has occurred
      */
     public WithdrawResponse sendWithdrawRequest(long cardNumber, double withdrawAmount) throws Exception {
         out.println(WithdrawRequest.toJSON(new WithdrawRequest(RequestType.WIT, cardNumber, withdrawAmount)));
@@ -85,7 +86,7 @@ public class Client {
      * @param transferAmount the amount to transfer
      * @param recipientCardNumber the recipient's card number
      * @return a TransferFundsResponse object
-     * @throws Exception
+     * @throws Exception an exception of some sorts has occurred
      */
     public TransferFundsResponse sendTransferFundsRequest(long senderCardNumber, double transferAmount, long recipientCardNumber) throws Exception {
         out.println(TransferFundsRequest.toJSON(new TransferFundsRequest(RequestType.TRA, senderCardNumber, transferAmount, recipientCardNumber)));
@@ -96,7 +97,7 @@ public class Client {
     /**
      * Closes the client socket connection
      *
-     * @throws IOException
+     * @throws IOException an I/O exception of some sorts has occurred
      */
     public void stopConnection() throws IOException {
         in.close();

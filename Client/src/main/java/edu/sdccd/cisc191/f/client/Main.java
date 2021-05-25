@@ -21,6 +21,7 @@ import java.io.IOException;
  * sending requests through the client.
  *
  * @author Oriel Sanchez
+ * @author Noah Widders
  */
 public class Main extends Application {
 

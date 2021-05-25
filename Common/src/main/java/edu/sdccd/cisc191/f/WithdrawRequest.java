@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * This class holds the structure for starting the withdraw requests within the socket.
  *
  * @author Oriel Sanchez
+ * @author Eric Kim
  */
 public class WithdrawRequest {
     private RequestType requestType;

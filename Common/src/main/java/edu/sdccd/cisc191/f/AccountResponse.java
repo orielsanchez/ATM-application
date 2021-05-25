@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * This class holds the structure to respond to accountRequests
  *
  * @author Oriel Sanchez
+ * @author Eric Kim
  */
 public class AccountResponse {
     private long id;

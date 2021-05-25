@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
  * It contains several CRUD methods used for the application.
  *
  * @author Oriel Sanchez
+ * @author Jonathan Plata
+ * @author Stanley Schwarz Jr.
  */
 
 @Service

@@ -20,6 +20,8 @@ import java.io.*;
  *
  * @author Andrew Huang
  * @author Oriel Sanchez
+ * @author Jonathan Plata
+ * @author Stanley Schwarz Jr.
  */
 public class Server {
     private ServerSocket serverSocket;
@@ -32,7 +34,7 @@ public class Server {
      *
      * @param port the port number
      * @param accountRepository the AccountRepository object
-     * @throws Exception
+     * @throws Exception an exception of some sorts has occurred
      */
     public void start(int port, AccountRepository accountRepository) throws Exception {
         System.out.println("Server started...");

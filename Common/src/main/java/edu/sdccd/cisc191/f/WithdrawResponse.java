@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * This class holds the structure to respond to withdrawRequests
  *
  * @author Oriel Sanchez
+ * @author Eric Kim
  */
 public class WithdrawResponse {
     private long id;

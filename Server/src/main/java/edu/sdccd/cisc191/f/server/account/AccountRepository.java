@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 /**
  * This interface is used as a repository of the accounts.
+ *
+ * @author Oriel Sanchez
  */
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {

@@ -8,10 +8,12 @@ import java.util.Random;
  * This class is a utility class to create Account objects,
  * generate 4 digit PINs. It contains the Luhn Algorithm,
  * which is used to check if a card number is valid via a checksum.
- *
+ * <p>
  * This class implements the Singleton design pattern.
  *
  * @author Oriel Sanchez
+ * @author Jonathan Plata
+ * @author Stanley Schwarz Jr.
  */
 
 public class AccountUtils {

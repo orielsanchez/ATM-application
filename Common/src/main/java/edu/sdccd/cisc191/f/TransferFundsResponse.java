@@ -3,6 +3,12 @@ package edu.sdccd.cisc191.f;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ *
+ *
+ * @author Oriel Sanchez
+ * @author Eric Kim
+ */
 public class TransferFundsResponse {
     private boolean transferSuccessful;
     private double balance;
